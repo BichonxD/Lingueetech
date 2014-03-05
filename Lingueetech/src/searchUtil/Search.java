@@ -10,44 +10,46 @@ public class Search {
 	
 	/* ATTRIBUTES */
 	private Index index;
-	private IndexSuffix indexSuffix;
-	private HashMap<Document, Integer> scoreDoc=null;
+	private KnowledgeDictionary dico;
+	private HashMap<Integer, Integer> scoreDoc=null;
+	private int language;
 	
-	private static final Comparator<Document> relevComparator = new Comparator<Token>() {
-	    public int compare(Document d1, Document d2){
+	private final Comparator<Integer> relevComparator = new Comparator<Integer>() {
+	    public int compare(Integer d1, Integer d2){
 	    	int res=scoreDoc.get(d2).compareTo(scoreDoc.get(d1));
 	    	if(res!=0)
 	    		return res;
 	    	else{
-	    		return d2.knowledge().compareTo(d1.knowledge()); // knowledge should return the average of the knowledge of the tokens of the document.
+	    		return dico.knowledge(d2).compareTo(dico.knowledge(d1)); // knowledge should return the average of the knowledge of the tokens of the document.
 	    		// what happens if equality ?
 	    	}
 	    }
 	};
 	
 	/* CONSTRUCTOR */
-	public Search(Index index, IndexSuffix indexSuffix){
+	public Search(Index index, KnowledgeDictionary dico, int language){
 		this.index=index;
-		this.indexSuffix=indexSuffix;
+		this.dico=dico;
+		this.language=language;
 	}
 	
 	/* METHODS */
-	public TreeSet<Document> search(String keywords){
-		HashSet<Token> tokens = tokenize(keywords);
-		ArrayList<Document> listDocs = new ArrayList<>();
+	public TreeSet<Integer> search(String keywords){
+		HashSet<Token> tokens = tokenize(keywords, language);
+		ArrayList<Integer> listDocs = new ArrayList<>();
 		scoreDoc = new HashMap<>();
 		
 		for(Token t : tokens){
-			ArrayList<Document> listDocsToken = (t.isExpression()) ? indexSuffix.getDocs(t) : index.getDocs(t);
+			ArrayList<Integer> listDocsToken = index.getDocs(t); // TODO: lit
 			listDocs.addAll(listDocsToken);
 			
-			for(Document d : listDocsToken){
+			for(Integer d : listDocsToken){
 				int previousScore = (scoreDoc.get(d) == null) ? 0 : scoreDoc.get(d); // Indexes should not create more than one instance of a document.
 				scoreDoc.put(d, previousScore + t.getIDF());
 			}
 		}
 		
-		TreeSet<Document> tree = new TreeSet<>(relevComparator);
+		TreeSet<Integer> tree = new TreeSet<>(relevComparator);
 		tree.addAll(listDocs);
 		return tree;
 	}
