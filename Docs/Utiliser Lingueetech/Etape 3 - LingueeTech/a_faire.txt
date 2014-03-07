@@ -1,0 +1,8 @@
+
+- Ouvrir le fichier "lingueeTech.conf" et remplacer les valeurs <chemin vers LingueeTech ici> par le chemin depuis la racine jusqu'au repertoire "LingueeTech"
+ Ex : remplacer <chemin vers LingueeTech ici> par c:/Users/sergem/Programmation/Java/LingueeTech 
+	NOTE :  L'INVERSION DES BARRES POUR INDIQUER LE SEPARATEUR DES DOSSIERS EST A ETE FAITE EXPRES
+
+- S'assurer que le fichier "lingueeTech.conf" n'a pas l'extension ".txt" et est bien un fichier conf
+
+- Sauvegarder et copier le fichier "lingueeTech.conf" dans le dossier "c:/wamp/alias"

@@ -1,0 +1,8 @@
+- Creer le Projet LingueeTech sous Eclpse 
+
+- Dans le dossier "LingueeTech" automatiquement crée lors de l'etape precedente, Copier-Coller le repertoire "/ihm" ci dessus.
+
+- Apres cette Etape, le dossier du projet Eclipse a au moins la structure suivante : 
+   LingueeTech 
+	- src
+	- ihm

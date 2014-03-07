@@ -1,0 +1,1 @@
+- Ouvrir un navgateur et taper dans la barre d'adresse : localhost 
