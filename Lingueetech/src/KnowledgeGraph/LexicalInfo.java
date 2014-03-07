@@ -18,4 +18,8 @@ public class LexicalInfo {
 	public void setKnowledge(float knowledge) {
 		this.knowledge = knowledge;
 	}
+	
+	public boolean addDoc(int doc) {
+		return docs.add(doc);
+	}
 }

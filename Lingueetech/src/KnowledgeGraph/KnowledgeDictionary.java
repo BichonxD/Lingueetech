@@ -3,43 +3,71 @@ package KnowledgeGraph;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class KnowledgeDictionary {
-	private HashMap<Integer, LexicalInfo> dictionary; // Identifiant lemme / niv. de connaissance
+public class KnowledgeDictionary extends HashMap<Integer, LexicalInfo> {
+	private static final long serialVersionUID = 4491795902364114584L;
+
 	private Index index;
 	
 	public static final float updateDocClicked = (float) 0.1,
-								updateSeen = (float) 0.01;
+								updateKnown = (float) 0.35,
+								updateSeen = (float) 0.01,
+								updateInit = (float) 0.2,
+								freqThreshold = (float) 0.1;
 	
 	public KnowledgeDictionary() {
-		this.dictionary = new HashMap<>();
+		super();
+		ArrayList<Integer> tokens = new ArrayList<>();
+		
+		for(int t : index.getTokens())
+			if(index.getFrequency(t) > freqThreshold)
+				tokens.add(t);
+		
+		update(updateInit, tokens);
+	}
+	
+	public void addTextKnowledge(String text) {
+		ArrayList<Integer> tokens = tokenize(text);
+		
+		update(updateKnown, tokens);
 	}
 	
 	private void update(float value, ArrayList<Integer> tokens) {
 		for(int t : tokens)
-			if(dictionary.containsKey(t))
-				dictionary.get(t).increase(value);
+			if(this.containsKey(t)) {
+				this.get(t).increase(value);
+			}
 			else {
 				LexicalInfo li = new LexicalInfo();
 				li.setKnowledge(value);
-				dictionary.put(t, li);
+				this.put(t, li);
 			}
 	}
 	
 	public void updateDocClicked(int doc) {
-		update(updateDocClicked, index.getDoc(doc).getTokens());
+		ArrayList<Integer> tokens = index.getDoc(doc).getTokens();
+		
+		update(updateDocClicked, tokens);
+		
+		for(int t : tokens)
+			this.get(t).addDoc(doc);
 	}
 	
 	public void updateDocSeen(int doc) {
-		update(updateSeen, index.getDoc(doc).getTokens());
+		ArrayList<Integer> tokens = index.getDoc(doc).getTokens();
+		
+		update(updateSeen, tokens);
+		
+		for(int t : tokens)
+			this.get(t).addDoc(doc);
 	}
 	
 	public void updateToken(int token) {
-		if(dictionary.containsKey(token))
-			dictionary.get(token).setKnowledge(1);
+		if(this.containsKey(token))
+			this.get(token).setKnowledge(1);
 		else {
 			LexicalInfo li = new LexicalInfo();
 			li.setKnowledge(1);
-			dictionary.put(token, li);
+			this.put(token, li);
 		}
 	}
 }
