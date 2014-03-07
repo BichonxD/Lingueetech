@@ -35,17 +35,17 @@ public class Search {
 
 	/* METHODS */
 	public TreeSet<Integer> search(String keywords) {
-		HashSet<Token> tokens = tokenize(keywords, language);
+		ArrayList<Integer> tokens = tokenize(keywords, language);
 		ArrayList<Integer> listDocs = new ArrayList<>();
 		scoreDoc = new HashMap<>();
 
-		for (Token t : tokens) {
+		for (Integer t : tokens) {
 			ArrayList<Integer> listDocsToken = index.getDocs(t); // TODO: lit
 			listDocs.addAll(listDocsToken);
 
 			for (Integer d : listDocsToken) {
 				int previousScore = (scoreDoc.containsKey(d)) ? scoreDoc.get(d) : 0; // Indexes should not create more than one instance of a document.
-				scoreDoc.put(d, previousScore + t.getIDF());
+				scoreDoc.put(d, previousScore + index.getIDF(t));
 			}
 		}
 
