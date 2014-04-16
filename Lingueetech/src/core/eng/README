@@ -1,3 +1,5 @@
 Pour exuécuter le Main, vous devez télécharger le stanford coreNLP depuis http://nlp.stanford.edu/software/corenlp.shtml et ajouter les 6 fichiers ejml-0.23.jar, joda-time.jar, jollyday.jar, stanford-corenlp-3.3.1.jar, stanford-corenlp-3.3.1-models.jar, xom.jar dans le buildpath du projet JAVA.
 
+Le Tokenization.java est la version 2.0 du Main avec une fonction que peut renvoyer la lemme d'un mot
+
 Le fichier de test pour les phrases se trouve dans le répertoire Files
