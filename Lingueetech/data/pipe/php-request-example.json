@@ -1,0 +1,8 @@
+{
+    "request"   : {
+        "action"    : "Search",
+        "params"    : {
+            "query"     : "Jambon" 
+        }
+    }
+}
