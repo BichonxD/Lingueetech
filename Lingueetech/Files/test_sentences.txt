@@ -1,0 +1,6 @@
+463078	eng	There is a 25 euro supplement for the high speed AVE train.
+1282	eng	Muiriel is 20 now.
+1283	eng	The password is "Muiriel".
+1284	eng	I will be back soon.
+1287	eng	This is never going to end.
+1288	eng	I just don't know what to say.
