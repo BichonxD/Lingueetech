@@ -16,8 +16,9 @@ public class KnowledgeDictionary extends HashMap<Integer, LexicalInfo> {
 								updateInit = (float) 0.2,
 								freqThreshold = (float) 0.1;
 	
-	public KnowledgeDictionary() {
+	public KnowledgeDictionary(Tokenization index) {
 		super();
+		this.index = index;
 		ArrayList<Integer> id = new ArrayList<>();
 		ArrayList<Integer> freq = index.getIdLemmetoFrequence();
 		
@@ -47,21 +48,15 @@ public class KnowledgeDictionary extends HashMap<Integer, LexicalInfo> {
 	}
 	
 	public void updateDocClicked(int doc) {
-		ArrayList<Integer> id = index.getDoc(doc).getTokens();
+		ArrayList<Integer> id = index.getDictionnaireIdToDocs().get(doc);
 		
 		update(updateDocClicked, id);
-		
-		for(int t : id)
-			this.get(t).addDoc(doc);
 	}
 	
 	public void updateDocSeen(int doc) {
-		ArrayList<Integer> tokens = index.getDoc(doc).getTokens();
+		ArrayList<Integer> id = index.getDictionnaireIdToDocs().get(doc);
 		
-		update(updateSeen, tokens);
-		
-		for(int t : tokens)
-			this.get(t).addDoc(doc);
+		update(updateSeen, id);
 	}
 	
 	public void updateToken(int token) {
