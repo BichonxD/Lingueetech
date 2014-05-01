@@ -35,7 +35,7 @@ public class Search {
 
 	/* METHODS */
 	public TreeSet<Integer> search(String keywords) {
-		ArrayList<Integer> tokens = tokenize(keywords, language);
+		ArrayList<Integer> tokens = index.tokenize(keywords, language);
 		ArrayList<Integer> listDocs = new ArrayList<>();
 		scoreDoc = new HashMap<>();
 
