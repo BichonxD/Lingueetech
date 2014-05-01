@@ -6,10 +6,13 @@ import java.util.HashMap;
 import java.util.Set;
 import java.util.TreeSet;
 
+import core.KnowledgeGraph.KnowledgeDictionary;
+import core.eng.Tokenization;
+
 public class Search {
 
 	/* ATTRIBUTES */
-	private Index index;
+	private Tokenization index;
 	private KnowledgeDictionary dico;
 	private HashMap<Integer, Integer> scoreDoc = null;
 	private int language;
@@ -27,7 +30,7 @@ public class Search {
 	};
 
 	/* CONSTRUCTOR */
-	public Search(Index index, KnowledgeDictionary dico, int language) {
+	public Search(Tokenization index, KnowledgeDictionary dico, int language) {
 		this.index = index;
 		this.dico = dico;
 		this.language = language;
@@ -35,7 +38,7 @@ public class Search {
 
 	/* METHODS */
 	public TreeSet<Integer> search(String keywords) {
-		ArrayList<Integer> tokens = index.tokenize(keywords, language);
+		ArrayList<Integer> tokens = index.tokenizeSentence(keywords, language);
 		ArrayList<Integer> listDocs = new ArrayList<>();
 		scoreDoc = new HashMap<>();
 
