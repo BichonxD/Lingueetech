@@ -23,11 +23,11 @@ import edu.stanford.nlp.util.*;
 public class Tokenization {
 	private StanfordCoreNLP core;
 	// les structures de l'index
-	HashMap<String, Integer> indexLemmeToId;
-	ArrayList<String> indexIdToLemme; // probablement non nécessaire car la perte de place est surement trop grande pour le gain de temps trop petit
-	HashMap<Integer, ArrayList<Integer>> dictionnaireIdToDocs;
-	HashMap<Integer, String> indexIdToSentences;
-	ArrayList<Integer> idLemmeToFrequence;
+	private HashMap<String, Integer> indexLemmeToId;
+	private ArrayList<String> indexIdToLemme; // probablement non nécessaire car la perte de place est surement trop grande pour le gain de temps trop petit
+	private HashMap<Integer, ArrayList<Integer>> dictionnaireIdToDocs;
+	private HashMap<Integer, String> indexIdToSentences;
+	private ArrayList<Integer> idLemmeToFrequence;
 		
 	public Tokenization(){
 		// initialiser les structures de l'index
@@ -153,7 +153,28 @@ public class Tokenization {
 		
 	}
 	
+	public ArrayList<Integer> tokenizeSentence(String sentence, int lang){
+		//TODO
+		return tokenizeSentence(sentence); // temp
+	}
 	
+	public ArrayList<Integer> tokenizeSentence(String sentence){
+		ArrayList<Integer> ids=new ArrayList<>();
+		String[] tabWords=sentence.split(" ");
+		for(int i=0; i<tabWords.length; i++){
+			String lemma = toLemma(tabWords[i]);
+			ids.add(indexLemmeToId.get(lemma));
+		}
+		return ids;
+	}
+	
+	public ArrayList<Integer> getDocs(Integer lemma){
+		return dictionnaireIdToDocs.get(lemma);
+	}
+	
+	public Integer getIDF(Integer lemma){
+		return 
+	}
 	
 	/**
 	 * @return the indexLemmeToId
@@ -201,6 +222,8 @@ public class Tokenization {
 		System.out.println(tokenization.getIdLemmeToFrequence().toString());
 		//Tester la lemme (go) pour le mot went
 		System.out.println("La lemme pour le mot went est : "+tokenization.toLemma("went"));
+		
+		Search search
 
 	}
 
