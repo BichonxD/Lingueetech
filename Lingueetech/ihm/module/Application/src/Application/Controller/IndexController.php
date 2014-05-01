@@ -11,11 +11,22 @@ namespace Application\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+use Zend\Json\Json;
+use Application\Service\SocketManager;
 
 class IndexController extends AbstractActionController
 {
     public function indexAction()
     {
-        return new ViewModel();
+        // Envoyer un message auserveurs
+        $str = '{"request"   : { "action"    : "Search","params"    : { "query"     : "Jambon" }}}';
+        
+        
+        SocketManager::sendJsonMessage(  $str . "\n" ) ; 
+        $json =   SocketManager::readResponse();
+         
+        // Retourner la reponse au client
+        $response = Json::prettyPrint($json) ; 
+        return new ViewModel(array('result' =>  $response));
     }
 }

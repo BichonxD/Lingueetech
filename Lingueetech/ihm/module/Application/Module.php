@@ -11,6 +11,7 @@ namespace Application;
 
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
+use Application\Service\SocketManager;
 
 class Module
 {
@@ -19,6 +20,11 @@ class Module
         $eventManager        = $e->getApplication()->getEventManager();
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
+        
+        SocketManager::initialize();
+        $e->getApplication()->getEventManager()->attach(MvcEvent::EVENT_FINISH,function(MvcEvent $e){
+        	//SocketManager::closeConnexion();
+        });
     }
 
     public function getConfig()

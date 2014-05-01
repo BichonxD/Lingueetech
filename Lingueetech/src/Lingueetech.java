@@ -157,7 +157,7 @@ public class Lingueetech {
 			// Gere la requete et renvoi une reponse au client
 			javaResponse = matchedAction.handleRequest();
 		}
-		catch (LingueetechException e){
+		catch (Exception e){
 			//e.printStackTrace();
 
 			// Initialise une reponse d'erreur à partir le l'exception : invReqException

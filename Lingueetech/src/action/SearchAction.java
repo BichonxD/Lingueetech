@@ -24,9 +24,16 @@ public class SearchAction extends AbstractAction {
 
 	@Override
 	public AbstractResponse handleRequest() throws ActionHandlerException{
-
+		int l ;
 		// Calcul demandé par la requete ... 
-
+	
+		
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		// Création de la reponse 
 		JSONObject jsonResponse = new JSONObject();
 
