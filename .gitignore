@@ -17,3 +17,11 @@
 *.log
 *.aux
 
+# Jar Trop lourds #
+ejml-0.23.jar
+joda-time.jar
+jollyday.jar
+stanford-corenlp-3.3.1.jar
+stanford-corenlp-3.3.1-models.jar
+xom.jar
+
