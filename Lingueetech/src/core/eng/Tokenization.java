@@ -28,6 +28,7 @@ public class Tokenization {
 	private HashMap<Integer, ArrayList<Integer>> dictionnaireIdToDocs;
 	private HashMap<Integer, String> indexIdToSentences;
 	private ArrayList<Integer> idLemmeToFrequence;
+
 		
 	public Tokenization(){
 		// initialiser les structures de l'index
@@ -173,7 +174,7 @@ public class Tokenization {
 	}
 	
 	public Integer getIDF(Integer lemma){
-		return 
+		return idLemmeToFrequence.get(indexLemmeToId.get(lemma));
 	}
 	
 	/**
@@ -210,6 +211,21 @@ public class Tokenization {
 	public ArrayList<Integer> getIdLemmeToFrequence() {
 		return idLemmeToFrequence;
 	}
+	/**
+	 * 
+	 * @param word Le mot à analyser
+	 * @return Le tableau de suffix du mot (la position de début est 0)
+	 */
+	public HashMap<String, Integer> wordToSuffixHashMap(String word){
+		int length = word.length();
+		int begin = length - 1;
+		HashMap<String, Integer> suffixHashMap = new HashMap<String, Integer>(length);
+		for(int i=0;i<length;i++){
+			suffixHashMap.put(word.substring(begin,length), length-i-1);
+			begin-=1;
+		}
+		return suffixHashMap;
+	}
 
 	public static void main(String[] args) {
 
@@ -222,8 +238,8 @@ public class Tokenization {
 		System.out.println(tokenization.getIdLemmeToFrequence().toString());
 		//Tester la lemme (go) pour le mot went
 		System.out.println("La lemme pour le mot went est : "+tokenization.toLemma("went"));
+		System.out.println(tokenization.wordToSuffixHashMap("string").toString());
 		
-		Search search
 
 	}
 
