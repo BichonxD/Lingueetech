@@ -13,7 +13,7 @@ public class Search {
 	/* ATTRIBUTES */
 	private Index index;
 	private KnowledgeDictionary dico;
-	private HashMap<Integer, Integer> scoreDoc = null;
+	private HashMap<Integer, Float> scoreDoc = null;
 	private int language;
 
 	private final Comparator<Integer> relevComparator = new Comparator<Integer>() {
@@ -46,7 +46,7 @@ public class Search {
 			if(listDocsToken != null) {
 				listDocs.addAll(listDocsToken);
 				for (Integer d : listDocsToken) {
-					int previousScore = (scoreDoc.containsKey(d)) ? scoreDoc.get(d) : 0; // Indexes should not create more than one instance of a document.
+					float previousScore = (scoreDoc.containsKey(d)) ? scoreDoc.get(d) : 0; // Indexes should not create more than one instance of a document.
 					scoreDoc.put(d, previousScore + index.getIDF(t));
 				}
 			}

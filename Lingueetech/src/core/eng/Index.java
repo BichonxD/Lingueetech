@@ -34,7 +34,7 @@ public class Index {
 	private HashMap<Integer, ArrayList<Integer>> dictionnaireIdToDocs;
 	private HashMap<Integer, String> indexIdToSentences;
 	private ArrayList<Integer> idLemmeToFrequence;
-	private HashMap<Integer, Integer> indexIdToIdf; // id token, son idf
+	private HashMap<Integer, Float> indexIdToIdf; // id token, son idf
 		
 	public Index(){
 		// initialiser les structures de l'index
@@ -43,7 +43,7 @@ public class Index {
 		dictionnaireIdToDocs = new HashMap<Integer, ArrayList<Integer>>();
 		indexIdToSentences = new HashMap<Integer, String>();
 		idLemmeToFrequence = new ArrayList<Integer>();
-		indexIdToIdf = new HashMap<Integer, Integer>();
+		indexIdToIdf = new HashMap<Integer, Float>();
 		
 		// Préciser les attributs à reconnaitre pour chauqe phrase, on construit
 		// l'index par les lemmes
@@ -126,7 +126,7 @@ public class Index {
 						// Ajouter la lemma dans l'index si elle n'est pas presente dedans
 						if (!indexIdToLemme.contains(lemma)) {
 							indexLemmeToId.put(lemma, idToken);
-							indexIdToIdf.put(idToken, 0);
+							indexIdToIdf.put(idToken, (float)0);
 							indexIdToLemme.add(lemma);
 							idLemmeToFrequence.add(1);
 							// Ajouter lemma dans le dictionnaire s'il n'est pas
@@ -156,7 +156,7 @@ public class Index {
 
 			}
 			for(Integer i : indexIdToIdf.keySet()){
-				indexIdToIdf.put(i, (int)(Math.log(dictionnaireIdToDocs.size()/getDocs(i).size())));
+				indexIdToIdf.put(i, (float) Math.log(dictionnaireIdToDocs.size()/getDocs(i).size()));
 			}
 		
 	}
@@ -183,7 +183,7 @@ public class Index {
 		return dictionnaireIdToDocs.get(lemma);
 	}
 	
-	public Integer getIDF(Integer lemma){
+	public Float getIDF(Integer lemma){
 		return indexIdToIdf.get(lemma);
 	}
 	
