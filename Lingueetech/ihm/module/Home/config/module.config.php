@@ -2,21 +2,21 @@
 return array(
     'controllers' => array(
         'invokables' => array(
-            'Search\Controller\Search' => 'Search\Controller\SearchController',
+            'Home\Controller\Home' => 'Home\Controller\HomeController',
         ),
     ),
     'router' => array(
         'routes' => array(
-            'search' => array(
+            'home' => array(
                 'type'    => 'Literal',
                 'options' => array(
                     // Change this to something specific to your module
-                    'route'    => '/search',
+                    'route'    => '/home',
                     'defaults' => array(
                         // Change this value to reflect the namespace in which
                         // the controllers for your module are found
-                        '__NAMESPACE__' => 'Search\Controller',
-                        'controller'    => 'Search',
+                        '__NAMESPACE__' => 'Home\Controller',
+                        'controller'    => 'Home',
                         'action'        => 'index',
                     ),
                 ),
@@ -44,7 +44,7 @@ return array(
     ),
     'view_manager' => array(
         'template_path_stack' => array(
-            'Search' => __DIR__ . '/../view',
+            'Home' => __DIR__ . '/../view',
         ),
     ),
 );
