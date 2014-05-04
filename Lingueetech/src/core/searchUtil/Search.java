@@ -1,18 +1,17 @@
-package searchUtil;
+package core.searchUtil;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Set;
 import java.util.TreeSet;
 
 import core.KnowledgeGraph.KnowledgeDictionary;
-import core.eng.Tokenization;
+import core.eng.Index;
 
 public class Search {
 
 	/* ATTRIBUTES */
-	private Tokenization index;
+	private Index index;
 	private KnowledgeDictionary dico;
 	private HashMap<Integer, Integer> scoreDoc = null;
 	private int language;
@@ -23,14 +22,14 @@ public class Search {
 			if (res != 0)
 				return res;
 			else {
-				return dico.knowledge(d2).compareTo(dico.knowledge(d1)); // knowledge should return the average of the knowledge of the tokens of the document.
-				// what happens if equality ?
+				res=dico.get(d2).getKnowledge().compareTo(dico.get(d1).getKnowledge()) ; // knowledge should return the average of the knowledge of the tokens of the document.
+				return (res==0)?1:res;
 			}
 		}
 	};
 
 	/* CONSTRUCTOR */
-	public Search(Tokenization index, KnowledgeDictionary dico, int language) {
+	public Search(Index index, KnowledgeDictionary dico, int language) {
 		this.index = index;
 		this.dico = dico;
 		this.language = language;
@@ -43,17 +42,20 @@ public class Search {
 		scoreDoc = new HashMap<>();
 
 		for (Integer t : tokens) {
-			ArrayList<Integer> listDocsToken = index.getDocs(t); // TODO: lit
-			listDocs.addAll(listDocsToken);
-
-			for (Integer d : listDocsToken) {
-				int previousScore = (scoreDoc.containsKey(d)) ? scoreDoc.get(d) : 0; // Indexes should not create more than one instance of a document.
-				scoreDoc.put(d, previousScore + index.getIDF(t));
+			ArrayList<Integer> listDocsToken = index.getDocs(t);
+			if(listDocsToken != null) {
+				listDocs.addAll(listDocsToken);
+				for (Integer d : listDocsToken) {
+					int previousScore = (scoreDoc.containsKey(d)) ? scoreDoc.get(d) : 0; // Indexes should not create more than one instance of a document.
+					scoreDoc.put(d, previousScore + index.getIDF(t));
+				}
 			}
 		}
 
 		TreeSet<Integer> tree = new TreeSet<>(relevComparator);
 		tree.addAll(listDocs);
+		
+		System.out.println(tree.size());
 		return tree;
 	}
 }

@@ -1,4 +1,4 @@
-package KnowledgeGraph;
+package core.KnowledgeGraph;
 
 public class LexicalInfo {
 	float knowledge;
@@ -13,5 +13,9 @@ public class LexicalInfo {
 	
 	public void setKnowledge(float knowledge) {
 		this.knowledge = knowledge;
+	}
+	
+	public Float getKnowledge() {
+		return knowledge;
 	}
 }

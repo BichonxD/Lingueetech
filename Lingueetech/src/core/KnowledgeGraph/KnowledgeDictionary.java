@@ -1,14 +1,14 @@
-package KnowledgeGraph;
+package core.KnowledgeGraph;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import eng.Tokenization;
+import core.eng.Index;
 
 public class KnowledgeDictionary extends HashMap<Integer, LexicalInfo> {
 	private static final long serialVersionUID = 4491795902364114584L;
 
-	private Tokenization index;
+	private Index index;
 	
 	public static final float updateDocClicked = (float) 0.1,
 								updateKnown = (float) 0.35,
@@ -16,15 +16,16 @@ public class KnowledgeDictionary extends HashMap<Integer, LexicalInfo> {
 								updateInit = (float) 0.2,
 								freqThreshold = (float) 0.1;
 	
-	public KnowledgeDictionary(Tokenization index) {
+	public KnowledgeDictionary(Index index) {
 		super();
 		this.index = index;
 		ArrayList<Integer> id = new ArrayList<>();
-		ArrayList<Integer> freq = index.getIdLemmetoFrequence();
+		ArrayList<Integer> freq = index.getIdLemmeToFrequence();
 		
-		for(int t : freq)
-			if(t > freqThreshold)
-				id.add(freq.indexOf(t));
+		for(int i=0; i<freq.size();i++){
+			if(freq.get(i) > freqThreshold)
+				id.add(i);
+		}
 		
 		update(updateInit, id);
 	}

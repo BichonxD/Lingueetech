@@ -1,4 +1,4 @@
-package KnowledgeGraph;
+package core.KnowledgeGraph;
 
 import java.util.HashMap;
 

@@ -1,0 +1,43 @@
+<?php 
+$click = 0;
+$classephrase = "";
+if($click == 0){
+    $classephrase = "Phrases";
+}
+else{
+    $classephrase = "PhrasesLu";
+}
+$motCherche = "Jambon"; // Mot chercher par l'utilisateur;
+$sentence1 = "Je m'apelle Jambon";
+$sentence2 = "Le jambon c'est bon";
+$sentence3 = "hjkhfjkehf";
+$sentence4 = "jgldgdmg";
+$sentence5 = "ksngklsgseg";
+$sentence6 = "jhfjshfe";
+$sentence7 = "lksglkn";
+$sentence8 = "ksefkgsg";
+$sentence9 = "kjzeklfzef";
+$sentence10 = "kjdkfjlskf";
+?>
+
+<h2 class="Titre text-center" > Recherche : <?php echo $motCherche ?></h2>
+
+<?php if ( $motCherche != "" ) :?>
+<script type="text/javascript">
+ function enter(elem){
+     elem.style.backgroundColor = '#CCFFCC';
+ }
+</script>
+<div class="PhraseEntiere"><div  class="Phrases" onclick="enter(this)"><span class="textPhrase"><?php echo $sentence1?></span></div></div>
+<div class="PhraseEntiere"><div class="Phrases" onclick="enter(this)"><span class="textPhrase"><?php echo $sentence2?></span></div></div>
+<div class="PhraseEntiere"><div class="Phrases" onclick="enter(this)"><span class="textPhrase"><?php echo $sentence3?></span></div></div>
+<div class="PhraseEntiere"><div class="Phrases" onclick="enter(this)"><span class="textPhrase"><?php echo $sentence4?></span></div></div>
+<div class="PhraseEntiere"><div class="Phrases" onclick="enter(this)"><span class="textPhrase"><?php echo $sentence5?></span></div></div>
+<div class="PhraseEntiere"><div class="Phrases" onclick="enter(this)"><span class="textPhrase"><?php echo $sentence6?></span></div></div>
+<div class="PhraseEntiere"><div class="Phrases" onclick="enter(this)"><span class="textPhrase"><?php echo $sentence7?></span></div></div>
+<div class="PhraseEntiere"><div class="Phrases" onclick="enter(this)"><span class="textPhrase"><?php echo $sentence8?></span></div></div>
+<div class="PhraseEntiere"><div class="Phrases" onclick="enter(this)"><span class="textPhrase"><?php echo $sentence9?></span></div></div>
+<div class="PhraseEntiere"><div class="Phrases" onclick="enter(this)"><span class="textPhrase"><?php echo $sentence10?></span></div></div>
+<?php endif;?>
+<button type="button" class=" bouton btn btn-info">Autres phrases</button>
+

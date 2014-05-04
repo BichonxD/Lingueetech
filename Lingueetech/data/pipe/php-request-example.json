@@ -2,7 +2,7 @@
     "request"   : {
         "action"    : "Search",
         "params"    : {
-            "query"     : "Jambon" 
+            "query"     : "to" 
         }
     }
 }
