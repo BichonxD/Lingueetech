@@ -1,7 +1,7 @@
 /**
  * 
  */
-package eng;
+package core.eng;
 
 import java.util.*;
 import java.util.Map.Entry;
@@ -226,7 +226,7 @@ public class Tokenization {
 		}
 		return suffixHashMap;
 	}
-
+/*
 	public static void main(String[] args) {
 
 		Tokenization tokenization = new Tokenization();
@@ -242,5 +242,5 @@ public class Tokenization {
 
 
 	}
-
+*/
 }
