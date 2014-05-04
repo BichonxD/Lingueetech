@@ -35,10 +35,16 @@ public class Index {
 	private HashMap<Integer, ArrayList<Integer>> dictionnaireIdToDocs;
 	private HashMap<Integer, String> indexIdToSentences;
 	private ArrayList<Integer> idLemmeToFrequence;
+<<<<<<< HEAD
 	private HashMap<Integer, Integer> indexIdToIdf; // id token, son idf
 	private ArrayList<SuffixArray> indexIdtoSuffixArray; // tableaux de suffixes
 
 	public Index() {
+=======
+	private HashMap<Integer, Float> indexIdToIdf; // id token, son idf
+		
+	public Index(){
+>>>>>>> 5a67e1350f07ef4f8be57974d9869080197e066e
 		// initialiser les structures de l'index
 		indexLemmeToId = new HashMap<String, Integer>();
 		indexIdToLemme = new ArrayList<String>(); // probablement non nécessaire
@@ -49,9 +55,14 @@ public class Index {
 		dictionnaireIdToDocs = new HashMap<Integer, ArrayList<Integer>>();
 		indexIdToSentences = new HashMap<Integer, String>();
 		idLemmeToFrequence = new ArrayList<Integer>();
+<<<<<<< HEAD
 		indexIdToIdf = new HashMap<Integer, Integer>();
 		indexIdtoSuffixArray = new ArrayList<SuffixArray>();
 
+=======
+		indexIdToIdf = new HashMap<Integer, Float>();
+		
+>>>>>>> 5a67e1350f07ef4f8be57974d9869080197e066e
 		// Préciser les attributs à reconnaitre pour chauqe phrase, on construit
 		// l'index par les lemmes
 		Properties props = new Properties();
@@ -136,6 +147,7 @@ public class Index {
 			// Pour chaque mot de la phrase
 			while (iterator.hasNext()) {
 				token = iterator.next();
+<<<<<<< HEAD
 				// On transforme tous en minuscules pour les lemmes
 				String lemma = token.getString(LemmaAnnotation.class)
 						.toLowerCase();
@@ -164,6 +176,42 @@ public class Index {
 							// l'id dans itemp
 							if (entry.getKey().equals(lemma))
 								itemp = entry.getValue();
+=======
+				token = iterator.next();
+				// Pour chaque mot de la phrase
+				while (iterator.hasNext()) {
+					token = iterator.next();
+					// On transforme tous en minuscules pour les lemmes
+					String lemma = token.getString(LemmaAnnotation.class).toLowerCase();
+					// On ne traite pas les num�ros et les symboles
+					if (isLemma(lemma)) {
+						// Ajouter la lemma dans l'index si elle n'est pas presente dedans
+						if (!indexIdToLemme.contains(lemma)) {
+							indexLemmeToId.put(lemma, idToken);
+							indexIdToIdf.put(idToken, (float)0);
+							indexIdToLemme.add(lemma);
+							idLemmeToFrequence.add(1);
+							// Ajouter lemma dans le dictionnaire s'il n'est pas
+							// présent : créer l'arraylist de sentence correspondant
+							ArrayList<Integer> t = new ArrayList<Integer>();
+							t.add(idSentence);
+							dictionnaireIdToDocs.put(idToken, t);
+							idToken++;
+						} else {
+							itemp = -1;
+							// màj de l'arrayList du lemme existant avec la sentence actuelle
+							for (Entry<String, Integer> entry : indexLemmeToId.entrySet()) {
+								//Si le string correspond au lemme, on sauvegarde l'id dans itemp
+								if (entry.getKey().equals(lemma))
+									itemp = entry.getValue();
+							}
+							idLemmeToFrequence.set(itemp, idLemmeToFrequence.get(itemp) + 1);
+							//précaution que nous prenons : on s'assure que le lemme est bien dans notre hash, si ce n'est pas le cas problème !
+							if (itemp == -1)
+								System.out.println("c'est la merde les gars !");
+							//on peut ajouter notre id de phrase à la liste de phrases du lemme
+							dictionnaireIdToDocs.get(itemp).add(idSentence);
+>>>>>>> 5a67e1350f07ef4f8be57974d9869080197e066e
 						}
 						idLemmeToFrequence.set(itemp,
 								idLemmeToFrequence.get(itemp) + 1);
@@ -177,6 +225,14 @@ public class Index {
 						dictionnaireIdToDocs.get(itemp).add(idSentence);
 					}
 				}
+<<<<<<< HEAD
+=======
+				idSentence++;
+
+			}
+			for(Integer i : indexIdToIdf.keySet()){
+				indexIdToIdf.put(i, (float) Math.log(dictionnaireIdToDocs.size()/getDocs(i).size()));
+>>>>>>> 5a67e1350f07ef4f8be57974d9869080197e066e
 			}
 			idSentence++;
 
@@ -272,8 +328,13 @@ public class Index {
 	public ArrayList<Integer> getDocs(Integer lemma) {
 		return dictionnaireIdToDocs.get(lemma);
 	}
+<<<<<<< HEAD
 
 	public Integer getIDF(Integer lemma) {
+=======
+	
+	public Float getIDF(Integer lemma){
+>>>>>>> 5a67e1350f07ef4f8be57974d9869080197e066e
 		return indexIdToIdf.get(lemma);
 	}
 
