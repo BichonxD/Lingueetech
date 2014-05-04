@@ -2,21 +2,21 @@
 return array(
     'controllers' => array(
         'invokables' => array(
-            'Search\Controller\Search' => 'Search\Controller\SearchController',
+            'Sentence\Controller\Sentence' => 'Sentence\Controller\SentenceController',
         ),
     ),
     'router' => array(
         'routes' => array(
-            'search' => array(
+            'sentence' => array(
                 'type'    => 'Literal',
                 'options' => array(
                     // Change this to something specific to your module
-                    'route'    => '/search',
+                    'route'    => '/sentence',
                     'defaults' => array(
                         // Change this value to reflect the namespace in which
                         // the controllers for your module are found
-                        '__NAMESPACE__' => 'Search\Controller',
-                        'controller'    => 'Search',
+                        '__NAMESPACE__' => 'Sentence\Controller',
+                        'controller'    => 'Sentence',
                         'action'        => 'index',
                     ),
                 ),
@@ -44,7 +44,7 @@ return array(
     ),
     'view_manager' => array(
         'template_path_stack' => array(
-            'Search' => __DIR__ . '/../view',
+            'Sentence' => __DIR__ . '/../view',
         ),
     ),
 );

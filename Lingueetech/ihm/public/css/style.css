@@ -1,45 +1,20 @@
-.navbar-brand:hover{
-	color:#428bca;
+body {
+    font-family: 'Open Sans';
+    cursor: default;
+    min-width: 320px;
 }
 
-.foot{
-	display:inline-block;
+p { text-align: justify; }
+a, a:hover { color: inherit; }
+
+.flag {
+	height: 15px;
+	margin: 5px;
+	vertical-align: sub;
 }
-.LogoP{
-	vertical-align:middle;
-}
-.name{
-	vertical-align:middle;
-}
-#univ{
-	vertical-align:middle;
-	position:absolute;
-	right:0px;
-	top:-15px;
-}
-.Titre{
-	margin-bottom : 20px;
-	color : #428bca;
-}
-.Phrases{
-	width : 1000px;
-	height : 50px;
-	margin-top : 10px;
-	margin-bottom : 10px;
-	margin-left : 70px;
-	text-align : left;
-	background-color : #D6EBFF;
-}
-.textPhrase{
-	position : relative;
-	top : 15px;
-	padding-left : 10px;
-}
-.PhraseEntiere{
-	width : 1000px;
-	height : 60px;
-}
-.bouton{
-	margin-top : 20px;
-	margin-left : 530px;
+
+.jumbotron {
+    background-image: url(../img/uk.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
 }

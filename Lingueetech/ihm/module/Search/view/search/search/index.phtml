@@ -1,43 +1,62 @@
-<?php 
-$click = 0;
-$classephrase = "";
-if($click == 0){
-    $classephrase = "Phrases";
-}
-else{
-    $classephrase = "PhrasesLu";
-}
-$motCherche = "Jambon"; // Mot chercher par l'utilisateur;
-$sentence1 = "Je m'apelle Jambon";
-$sentence2 = "Le jambon c'est bon";
-$sentence3 = "hjkhfjkehf";
-$sentence4 = "jgldgdmg";
-$sentence5 = "ksngklsgseg";
-$sentence6 = "jhfjshfe";
-$sentence7 = "lksglkn";
-$sentence8 = "ksefkgsg";
-$sentence9 = "kjzeklfzef";
-$sentence10 = "kjdkfjlskf";
+<?php
+    $query = "exemple"; // Expression recherchee
+    $results = 5; // Nombre de resultats
+    $hard = 2; // Nombre de phrases difficiles
+    $easy = 1; // Nombre de phrase faciles
+    $page = 1; // Numero de page
 ?>
 
-<h2 class="Titre text-center" > Recherche : <?php echo $motCherche ?></h2>
-
-<?php if ( $motCherche != "" ) :?>
-<script type="text/javascript">
- function enter(elem){
-     elem.style.backgroundColor = '#CCFFCC';
- }
-</script>
-<div class="PhraseEntiere"><div  class="Phrases" onclick="enter(this)"><span class="textPhrase"><?php echo $sentence1?></span></div></div>
-<div class="PhraseEntiere"><div class="Phrases" onclick="enter(this)"><span class="textPhrase"><?php echo $sentence2?></span></div></div>
-<div class="PhraseEntiere"><div class="Phrases" onclick="enter(this)"><span class="textPhrase"><?php echo $sentence3?></span></div></div>
-<div class="PhraseEntiere"><div class="Phrases" onclick="enter(this)"><span class="textPhrase"><?php echo $sentence4?></span></div></div>
-<div class="PhraseEntiere"><div class="Phrases" onclick="enter(this)"><span class="textPhrase"><?php echo $sentence5?></span></div></div>
-<div class="PhraseEntiere"><div class="Phrases" onclick="enter(this)"><span class="textPhrase"><?php echo $sentence6?></span></div></div>
-<div class="PhraseEntiere"><div class="Phrases" onclick="enter(this)"><span class="textPhrase"><?php echo $sentence7?></span></div></div>
-<div class="PhraseEntiere"><div class="Phrases" onclick="enter(this)"><span class="textPhrase"><?php echo $sentence8?></span></div></div>
-<div class="PhraseEntiere"><div class="Phrases" onclick="enter(this)"><span class="textPhrase"><?php echo $sentence9?></span></div></div>
-<div class="PhraseEntiere"><div class="Phrases" onclick="enter(this)"><span class="textPhrase"><?php echo $sentence10?></span></div></div>
-<?php endif;?>
-<button type="button" class=" bouton btn btn-info">Autres phrases</button>
-
+<?php include 'module/Application/view/item/form.php'; ?>
+<section id="data">
+    <h3 class="text-center">
+        <?php echo $results; ?> r&eacute;sultat<?php if($results > 1) echo "s"; ?>
+        pour <strong>"<?php echo $query; ?>"</strong>
+    </h3>
+    <div class="progress">
+        <div class="progress-bar progress-bar-success" style="width: <?php echo 100 * $easy / floatval($results); ?>%">
+            <span class="sr-only"><?php echo 100 * $easy / floatval($results); ?>% facile</span>
+        </div>
+        <div class="progress-bar progress-bar-danger" style="width: <?php echo 100 * $hard / floatval($results); ?>%">
+            <span class="sr-only"><?php echo 100 * $easy / floatval($results); ?>% difficile</span>
+        </div>
+    </div>
+    <h3>Filtres</h3>
+    <div class="btn-toolbar" role="toolbar">
+        <div class="btn-group">
+            <button type="button" class="btn btn-info" name="easy">Facile</button>
+            <button type="button" class="btn btn-info" name="normal">Moyen</button>
+            <button type="button" class="btn btn-info" name="hard">Difficile</button>
+        </div>
+    </div>
+    <script type="text/javascript">
+    $("#data .btn-group .btn").click(function(event) {
+        $("#results div.panel." +
+            $(this)
+            .toggleClass("btn-info")
+            .attr("name")
+        ).slideToggle();
+    }).hover(function(event) {
+        $("#results div.panel:not(." + $(this).attr("name") + ")").toggleClass("text-muted");
+    });
+    </script>
+</section>
+<hr>
+<section id="results">
+    <ul class="list-unstyled">
+        <?php for($i = 0; $i < $results; $i++) { ?>
+        <li><?php include 'module/Application/view/item/result.php'; ?></li>
+        <?php } ?>
+    </ul>
+    <hr>
+    <div class="text-center">
+        <ul class="pagination" >
+            <li class="disabled" title="Pr&eacute;c&eacute;dent"><a href="#"><i class="fa fa-angle-left"></i></a></li>
+            <li class="active"><a href="#">1</a></li>
+            <li><a href="#">2</a></li>
+            <li><a href="#">3</a></li>
+            <li><a href="#">4</a></li>
+            <li><a href="#">5</a></li>
+            <li><a href="#" title="Suivant"><i class="fa fa-angle-right"></i></a></li>
+        </ul>
+    </div>
+</section>
