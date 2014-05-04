@@ -9,15 +9,17 @@ import core.eng.Index;
 
 // Tel quel, les arêtes sont en double...
 public class DictionaryGraph extends HashMap<Integer, HashMap<Integer, Float>> {
-	private HashMap<Integer, LexicalInfo> nodes;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private KnowledgeDictionary dictionary;
 	private Index index;
 	private HashMap<Integer, Float> scores;
 	
 	public DictionaryGraph(Index index, KnowledgeDictionary dictionary, int nb){
 		this.index=index;
-		this.dictionary=dictionary;	
-		nodes=new HashMap<>();
+		this.dictionary=dictionary;
 		scores=new HashMap<>();
 		fillGraph(nb);
 	}
@@ -25,10 +27,10 @@ public class DictionaryGraph extends HashMap<Integer, HashMap<Integer, Float>> {
 	private void fillGraph(int nb){
 		HashSet<Integer> relevantLemma=getMoreRelevant(nb);
 		for(Integer lemma:relevantLemma)
-			put(lemma,getSimilar(lemma));
+			put(lemma,getSimilar(lemma, relevantLemma));
 	}
 	
-	private HashMap<Integer, Float> getSimilar(Integer lemma) {
+	private HashMap<Integer, Float> getSimilar(Integer lemma, HashSet<Integer> relevantLemma) {
 		// TODO with word2vec
 		return null;
 	}
@@ -41,14 +43,18 @@ public class DictionaryGraph extends HashMap<Integer, HashMap<Integer, Float>> {
 	};
 
 	private HashSet<Integer> getMoreRelevant(int nb) {
-		TreeSet<Integer> tree=new TreeSet<>();
+		TreeSet<Integer> tree=new TreeSet<>(relevComparator);
 		HashSet<Integer> relevants=new HashSet<>();
 		for(Integer lemma: dictionary.keySet()){
-			scores.put(lemma, dictionary.get(lemma).getKnowledge()/index.getIDF(lemma));
+			scores.put(lemma, formula(dictionary.get(lemma).getKnowledge(),index.getIDF(lemma)));
 			tree.add(lemma);
 		}
 		relevants.addAll(tree.subSet(0, nb));
 		return relevants;
+	}
+
+	private Float formula(Float knowledge, Float idf) {
+		return knowledge/idf;
 	}
 	
 	
