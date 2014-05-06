@@ -35,16 +35,10 @@ public class Index {
 	private HashMap<Integer, ArrayList<Integer>> dictionnaireIdToDocs;
 	private HashMap<Integer, String> indexIdToSentences;
 	private ArrayList<Integer> idLemmeToFrequence;
-<<<<<<< HEAD
 	private HashMap<Integer, Integer> indexIdToIdf; // id token, son idf
 	private ArrayList<SuffixArray> indexIdtoSuffixArray; // tableaux de suffixes
 
 	public Index() {
-=======
-	private HashMap<Integer, Float> indexIdToIdf; // id token, son idf
-		
-	public Index(){
->>>>>>> 5a67e1350f07ef4f8be57974d9869080197e066e
 		// initialiser les structures de l'index
 		indexLemmeToId = new HashMap<String, Integer>();
 		indexIdToLemme = new ArrayList<String>(); // probablement non nécessaire
@@ -55,14 +49,9 @@ public class Index {
 		dictionnaireIdToDocs = new HashMap<Integer, ArrayList<Integer>>();
 		indexIdToSentences = new HashMap<Integer, String>();
 		idLemmeToFrequence = new ArrayList<Integer>();
-<<<<<<< HEAD
 		indexIdToIdf = new HashMap<Integer, Integer>();
 		indexIdtoSuffixArray = new ArrayList<SuffixArray>();
 
-=======
-		indexIdToIdf = new HashMap<Integer, Float>();
-		
->>>>>>> 5a67e1350f07ef4f8be57974d9869080197e066e
 		// Préciser les attributs à reconnaitre pour chauqe phrase, on construit
 		// l'index par les lemmes
 		Properties props = new Properties();
@@ -328,13 +317,8 @@ public class Index {
 	public ArrayList<Integer> getDocs(Integer lemma) {
 		return dictionnaireIdToDocs.get(lemma);
 	}
-<<<<<<< HEAD
-
-	public Integer getIDF(Integer lemma) {
-=======
 	
 	public Float getIDF(Integer lemma){
->>>>>>> 5a67e1350f07ef4f8be57974d9869080197e066e
 		return indexIdToIdf.get(lemma);
 	}
 
