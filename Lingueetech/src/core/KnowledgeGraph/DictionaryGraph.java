@@ -53,6 +53,4 @@ public class DictionaryGraph extends HashMap<Integer, HashMap<Integer, Float>> {
 		return relevants;
 	}
 	
-	
-	
 }

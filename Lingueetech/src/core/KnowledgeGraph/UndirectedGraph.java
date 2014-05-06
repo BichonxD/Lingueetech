@@ -2,6 +2,7 @@ package core.KnowledgeGraph;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -19,7 +20,7 @@ public final class UndirectedGraph<T> implements Iterable<T>{
  
     public void addEdge(T start, T dest) {
      if (!graph.containsKey(start) || !graph.containsKey(dest))
-      throw new Exception("No such nodes in the graph.");
+    	 throw new Exception("No such nodes in the graph.");
       
      graph.get(start).add(dest);
      graph.get(dest).add(start);
