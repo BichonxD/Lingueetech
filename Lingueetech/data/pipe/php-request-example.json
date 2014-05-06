@@ -1,8 +1,9 @@
 {
     "request"   : {
-        "action"    : "Search",
+        "action"    : "ClikedOrViewed",
         "params"    : {
-            "query"     : "Jambon" 
+            "id"     : 123456,
+            "event" : "Clicked" 
         }
     }
 }

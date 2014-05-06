@@ -9,6 +9,7 @@ import java.net.Socket;
 import java.util.HashMap;
 
 import action.AbstractAction;
+import action.ClikedOrViewedAction;
 import action.SearchAction;
 import json.JSONObject;
 import json.JSONTokener;
@@ -103,6 +104,9 @@ public class Lingueetech {
 		// en sont responsable.
 		actionMatchingTable = new HashMap<>();
 		actionMatchingTable.put("Search", new SearchAction());	
+		actionMatchingTable.put("ClickedOrViewed", new ClikedOrViewedAction());	
+		
+		
 		
 		// Autres Initialisations .... 
 	}

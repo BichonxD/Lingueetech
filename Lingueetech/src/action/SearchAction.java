@@ -5,6 +5,7 @@ import exception.ActionHandlerException;
 
 import exception.InvalidParamException;
 import exception.InvalidRequestException;
+import json.JSONArray;
 import json.JSONObject;
 import request.SearchRequestParam;
 import response.AbstractResponse;
@@ -24,22 +25,40 @@ public class SearchAction extends AbstractAction {
 
 	@Override
 	public AbstractResponse handleRequest() throws ActionHandlerException{
-		int l ;
-		// Calcul demandé par la requete ... 
-	
 		
-		try {
-			Thread.sleep(5000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		// Création de la reponse 
 		JSONObject jsonResponse = new JSONObject();
 
 		// Initialiser l'objet JSON
-		jsonResponse.accumulate("sentences", "Le Jambon pour quoi pas ?");
-		jsonResponse.accumulate("sentences", "J'aime le Jambon-beurre.");
+		/*
+		sentences = [ {
+			id = 
+			text = 
+			tokens = [{ id, lemma, text, score} , { } , { } , { }]
+			score = 
+			favorite = bool
+		}]
+		*/
+		
+ 		
+		// Parcourir les phrases
+		// Parcourir les tokens de la phrase
+		JSONArray tokens = new JSONArray();
+			JSONObject token = new JSONObject();
+			token.put("id", 123123);
+			token.put("lemma", "Hello");
+			token.put("text", "Hello Token");
+			token.put("score", 123123);
+		tokens.put(token);
+				
+		JSONObject sentence = new JSONObject();
+			sentence.put("id", 123);
+			sentence.put("text", "text");
+			sentence.put("tokens", tokens);
+			sentence.put("score", 123);
+			sentence.put("favorite", false);
+			jsonResponse.accumulate("sentences", sentence);
+			jsonResponse.accumulate("sentences", sentence);
 		
 		// Retour de la reponse au client 
 		SuccessResponse successResponse = new SuccessResponse(jsonResponse);
