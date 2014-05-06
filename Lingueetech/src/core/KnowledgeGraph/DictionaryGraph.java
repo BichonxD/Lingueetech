@@ -16,6 +16,7 @@ public class DictionaryGraph extends HashMap<Integer, HashMap<Integer, Float>> {
 	private KnowledgeDictionary dictionary;
 	private Index index;
 	private HashMap<Integer, Float> scores;
+	private float thresholdSimilarity=0.6f;
 	
 	public DictionaryGraph(Index index, KnowledgeDictionary dictionary, int nb, float pond){
 		this.index=index;
@@ -26,13 +27,22 @@ public class DictionaryGraph extends HashMap<Integer, HashMap<Integer, Float>> {
 	
 	private void fillGraph(int nb, float pond){
 		HashSet<Integer> relevantLemma=getMoreRelevant(nb, pond);
-		for(Integer lemma:relevantLemma)
-			put(lemma,getSimilar(lemma, relevantLemma));
+		for(Integer lemma:relevantLemma){
+			put(lemma,new HashMap<Integer,Float>());
+			if(!isEmpty()){
+				for(Integer lemmaAlready:this.keySet()){
+					float sim=getSimilarity(lemma,lemmaAlready);
+					if(sim>thresholdSimilarity){
+						get(lemmaAlready).put(lemma, sim);
+						get(lemma).put(lemmaAlready, sim);
+					}
+				}
+			}
+		}
 	}
-	
-	private HashMap<Integer, Float> getSimilar(Integer lemma, HashSet<Integer> relevantLemma) {
-		// TODO with word2vec
-		return null;
+
+	public float getSimilarity(Integer lm1, Integer lm2){
+		//TODO word2vec
 	}
 
 	private final Comparator<Integer> relevComparator = new Comparator<Integer>() {
