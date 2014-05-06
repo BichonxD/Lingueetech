@@ -1,3 +1,4 @@
+package main_package;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -10,6 +11,9 @@ import java.lang.management.ManagementFactory;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
+
+import core.KnowledgeGraph.KnowledgeDictionary;
+import core.eng.Index;
 
 import action.AbstractAction;
 import action.ClikedOrViewedAction;
@@ -40,7 +44,8 @@ public class Lingueetech {
 	 */
 	private static HashMap<String, AbstractAction> actionMatchingTable;
 
-
+	public static KnowledgeDictionary dico;
+	public static Index index;
 
 
 	public static void main(String[] args) {
@@ -53,7 +58,6 @@ public class Lingueetech {
 		// Traite toutes les requetes entrantes des utilisateurs 
 		Lingueetech.handleAllRequest();
 		 
-			
 	}
 
 
@@ -130,6 +134,9 @@ public class Lingueetech {
 		}
 		
 		// Autres Initialisations .... 
+		index = new Index();
+		index.tokenize("Files/test_sentences.txt");
+		dico = new KnowledgeDictionary(index);
 	}
 
 

@@ -1,5 +1,7 @@
 package request;
 
+import core.searchUtil.Search;
+import exception.ActionHandlerException;
 import exception.InvalidParamException;
 import json.JSONObject;
 
@@ -9,6 +11,12 @@ public final class SearchRequestParam extends AbstractRequestParam{
 	 * Expression saisie par l'utilisateur
 	 */
 	private String query;
+	
+	
+	/**
+	 * Type de recherche a effectuer
+	 */
+	private String searchType;
 
 	
 	/**
@@ -31,6 +39,11 @@ public final class SearchRequestParam extends AbstractRequestParam{
 	}
 
 
+	public String getSearchType() {
+		return searchType;
+	}
+
+
 	@Override
 	public void initWith(JSONObject jsonObject) throws InvalidParamException{
 
@@ -40,6 +53,8 @@ public final class SearchRequestParam extends AbstractRequestParam{
 
 		// Initialise l'objet SearchRequestParam
 		query = requestParam.getString("query");
-
+		searchType = requestParam.getString("searchType");
+		if( !searchType.equals(Search.RELEVANCE) && !searchType.equals(Search.EDUCATIVE) )
+			throw new InvalidParamException("Le type de recherche " + searchType + "est inconnue");
 	}
 }

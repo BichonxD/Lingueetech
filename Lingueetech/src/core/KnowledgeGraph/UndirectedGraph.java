@@ -18,7 +18,7 @@ public final class UndirectedGraph<T> implements Iterable<T>{
      return true;
     }
  
-    public void addEdge(T start, T dest) {
+    public void addEdge(T start, T dest) throws Exception {
      if (!graph.containsKey(start) || !graph.containsKey(dest))
     	 throw new Exception("No such nodes in the graph.");
       
@@ -26,7 +26,7 @@ public final class UndirectedGraph<T> implements Iterable<T>{
      graph.get(dest).add(start);
     }
  
-    public void removeEdge(T start, T dest) {
+    public void removeEdge(T start, T dest) throws Exception {
      if (!graph.containsKey(start) || !graph.containsKey(dest))
       throw new Exception("No such nodes in the graph.");
  
@@ -34,14 +34,14 @@ public final class UndirectedGraph<T> implements Iterable<T>{
      graph.get(dest).remove(start);
     }
  
-    public boolean isEdgeExists(T start, T end) {
+    public boolean isEdgeExists(T start, T end) throws Exception {
      if (!graph.containsKey(start) || !graph.containsKey(end))
       throw new Exception("No such nodes in the graph.");
  
      return graph.get(start).contains(end);
     }
  
-    public Set<T> getNeighbors(T node) {
+    public Set<T> getNeighbors(T node) throws Exception {
      Set<T> neighbors = graph.get(node);
      if (neighbors == null)
       throw new Exception("No such node in the graph.");

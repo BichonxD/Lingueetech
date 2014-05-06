@@ -19,7 +19,7 @@ class IndexController extends AbstractActionController
     public function indexAction()
     {
         // Envoyer un message auserveurs
-        $str = '{"request"   : { "action"    : "Search","params"    : { "id" : 123, "query" : "Clicked" }}}';
+        $str = '{"request"   : { "action"    : "Search","params"    : { "searchType" : "Relevant", "query" : "went" }}}';
         
         
         SocketManager::sendJsonMessage(  $str . "\n" ) ; 

@@ -41,8 +41,10 @@ public class DictionaryGraph extends HashMap<Integer, HashMap<Integer, Float>> {
 		}
 	}
 
+	//@TODO
 	public float getSimilarity(Integer lm1, Integer lm2){
-		//TODO word2vec
+		
+		return 00;
 	}
 
 	private final Comparator<Integer> relevComparator = new Comparator<Integer>() {

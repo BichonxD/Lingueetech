@@ -9,6 +9,10 @@ import core.KnowledgeGraph.KnowledgeDictionary;
 import core.eng.Index;
 
 public class Search{
+
+	public static final String RELEVANCE = "Relevance"; 
+	public static final String EDUCATIVE = "Educative"; 
+	
 	/* ATTRIBUTES */
 	private Index index;
 	private KnowledgeDictionary dico;
@@ -29,7 +33,7 @@ public class Search{
 	private final Comparator<Integer> eduComparator = new Comparator<Integer>() {
 		public int compare(Integer d1, Integer d2) {
 			int res=getKnowledge(d2).compareTo(getKnowledge(d1));
-			return (res == 0) ? 1 : res; /*Egalité interdite pour le treeset*/
+			return (res == 0) ? 1 : res; /*Egalit? interdite pour le treeset*/
 		}
 	};
 
