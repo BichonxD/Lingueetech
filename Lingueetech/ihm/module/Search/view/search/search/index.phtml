@@ -8,23 +8,12 @@ else{
     $classephrase = "PhrasesLu";
 }
 $motCherche = "Jambon"; // Mot chercher par l'utilisateur;
-$sentence1 = "Je m'apelle Jambon";
-$sentence2 = "Le jambon c'est bon";
-$sentence3 = "hjkhfjkehf";
-$sentence4 = "jgldgdmg";
-$sentence5 = "ksngklsgseg";
-$sentence6 = "jhfjshfe";
-$sentence7 = "lksglkn";
-$sentence8 = "ksefkgsg";
-$sentence9 = "kjzeklfzef";
-$sentence10 = "kjdkfjlskf";
-
-$sentence;
 ?>
+<?php if($motCherche == ""):?>
 
+<?php elseif ( $motCherche != "" ) :?>
 <h2 class="Titre text-center" > Recherche : <?php echo $motCherche ?></h2>
-
-<?php if ( $motCherche != "" ) :?>
+<?php endif;?>
 <script type="text/javascript">
  function enter(elem, id){
  
@@ -34,27 +23,21 @@ $sentence;
     	    });
  }
 </script>
-
-<div class="PhraseEntiere" data-toggle="modal" data-target="#myModal"><div  class="Phrases" onclick="enter(this,'#m1')"><span class="textPhrase"><?php echo $sentence1?></span></div></div>
-<div class="PhraseEntiere" data-toggle="modal" data-target="#myModal"><div class="Phrases" onclick="enter(this,'#m2')"><span class="textPhrase"><?php echo $sentence2?></span></div></div>
-<div class="PhraseEntiere" data-toggle="modal" data-target="#myModal"><div class="Phrases" onclick="enter(this,'#m3')"><span class="textPhrase"><?php echo $sentence3?></span></div></div>
-<div class="PhraseEntiere" data-toggle="modal" data-target="#myModal"><div class="Phrases" onclick="enter(this,'#m4')"><span class="textPhrase"><?php echo $sentence4?></span></div></div>
-<div class="PhraseEntiere" data-toggle="modal" data-target="#myModal"><div class="Phrases" onclick="enter(this,'#m5')"><span class="textPhrase"><?php echo $sentence5?></span></div></div>
-<div class="PhraseEntiere" data-toggle="modal" data-target="#myModal"><div class="Phrases" onclick="enter(this,'#m6')"><span class="textPhrase"><?php echo $sentence6?></span></div></div>
-<div class="PhraseEntiere" data-toggle="modal" data-target="#myModal"><div class="Phrases" onclick="enter(this,'#m7')"><span class="textPhrase"><?php echo $sentence7?></span></div></div>
-<div class="PhraseEntiere" data-toggle="modal" data-target="#myModal"><div class="Phrases" onclick="enter(this,'#m8')"><span class="textPhrase"><?php echo $sentence8?></span></div></div>
-<div class="PhraseEntiere" data-toggle="modal" data-target="#myModal"><div class="Phrases" onclick="enter(this,'#m9')"><span class="textPhrase"><?php echo $sentence9?></span></div></div>
-<div class="PhraseEntiere" data-toggle="modal" data-target="#myModal"><div class="Phrases" onclick="enter(this,'#m10')"><span class="textPhrase"><?php echo $sentence10?></span></div></div>
-
-<div class="modal fade" id="m1">
+<?php foreach ($sentences as $id => $sentence ):?>
+<div class="PhraseEntiere" data-toggle="modal" data-target="#myModal">
+    <div  class="Phrases" onclick="enter(this,'#m<?php echo $id ?>')">
+        <span class="textPhrase"><?php echo $sentence  ?></span>
+    </div>
+</div>
+<div class="modal fade" id="m<?php echo $id ?>">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title">Modal title</h4>
+        <h4 class="modal-title">Regarde de plus près</h4>
       </div>
       <div class="modal-body">
-        <p><?php echo $sentence1?></p>
+        <p><?php echo $sentence?></p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -63,159 +46,5 @@ $sentence;
     </div>
   </div>
 </div>
-<div class="modal fade" id="m2">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title">Modal title</h4>
-      </div>
-      <div class="modal-body">
-        <p><?php echo $sentence2?></p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-<div class="modal fade" id="m3">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title">Modal title</h4>
-      </div>
-      <div class="modal-body">
-        <p><?php echo $sentence3?></p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-<div class="modal fade" id="m4">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title">Modal title</h4>
-      </div>
-      <div class="modal-body">
-        <p><?php echo $sentence4?></p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-<div class="modal fade" id="m5">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title">Modal title</h4>
-      </div>
-      <div class="modal-body">
-        <p><?php echo $sentence5?></p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-<div class="modal fade" id="m6">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title">Modal title</h4>
-      </div>
-      <div class="modal-body">
-        <p><?php echo $sentence6?></p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-<div class="modal fade" id="m7">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title">Modal title</h4>
-      </div>
-      <div class="modal-body">
-        <p><?php echo $sentence7?></p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-<div class="modal fade" id="m8">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title">Modal title</h4>
-      </div>
-      <div class="modal-body">
-        <p><?php echo $sentence8?></p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-<div class="modal fade" id="m9">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title">Modal title</h4>
-      </div>
-      <div class="modal-body">
-        <p><?php echo $sentence9?></p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-<div class="modal fade" id="m10">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title">Modal title</h4>
-      </div>
-      <div class="modal-body">
-        <p><?php echo $sentence10?></p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-<?php endif;?>
+<?php endforeach;?> 
 <button type="button" class=" bouton btn btn-info">Autres phrases</button>
-
