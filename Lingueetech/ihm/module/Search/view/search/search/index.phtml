@@ -7,7 +7,7 @@ if($click == 0){
 else{
     $classephrase = "PhrasesLu";
 }
-$motCherche = "Jambon"; // Mot chercher par l'utilisateur;
+$motCherche = "jambon"; // Mot chercher par l'utilisateur;
 $tokens = array("This" => 0.6, "is" => 0.5, "an" => 0.8, "example." => 0.2);
 $difficulty = "hard"; // Difficulte [easy, normal, hard]
 $fav = true; // Temoin de favori
@@ -16,10 +16,10 @@ $dislike = 2; // Nombre de "Je n'aime pas"
 ?>
 
 <div class="Titre text-center">
-	<?php if($motCherche == ""):?>
-	<?php elseif ( $motCherche != "" ) :?>
-	<h2> Recherche : <?php echo $motCherche ?></h2>
-	<?php endif;?>
+	<h2>
+		<?php if(empty($motCherche)) :?> Suis le guide !
+		<?php else :?> Recherche <?php echo $motCherche; endif?>
+	</h2>
 	<h3 class="Titre">Filtres</h3>
 	<button type="button" class="btn btn-info" name="easy">Facile</button>
 	<button type="button" class="btn btn-info" name="normal">Moyen</button>
@@ -109,4 +109,4 @@ $dislike = 2; // Nombre de "Je n'aime pas"
     }).click(function(event) {
 	});
 </script>
-<button type="button" class=" bouton btn btn-info">Autres phrases</button>
+<button type="button" class="bouton btn btn-info">Autres phrases</button>
