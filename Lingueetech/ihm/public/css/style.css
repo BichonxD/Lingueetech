@@ -1,7 +1,6 @@
 .navbar-brand:hover{
 	color:#428bca;
 }
-
 .foot{
 	display:inline-block;
 }
@@ -10,6 +9,7 @@
 }
 .name{
 	vertical-align:middle;
+	text-align:center;
 }
 #univ{
 	vertical-align:middle;
