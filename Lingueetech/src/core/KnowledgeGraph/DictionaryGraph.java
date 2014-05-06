@@ -17,15 +17,15 @@ public class DictionaryGraph extends HashMap<Integer, HashMap<Integer, Float>> {
 	private Index index;
 	private HashMap<Integer, Float> scores;
 	
-	public DictionaryGraph(Index index, KnowledgeDictionary dictionary, int nb){
+	public DictionaryGraph(Index index, KnowledgeDictionary dictionary, int nb, float pond){
 		this.index=index;
 		this.dictionary=dictionary;
 		scores=new HashMap<>();
-		fillGraph(nb);
+		fillGraph(nb, pond);
 	}
 	
-	private void fillGraph(int nb){
-		HashSet<Integer> relevantLemma=getMoreRelevant(nb);
+	private void fillGraph(int nb, float pond){
+		HashSet<Integer> relevantLemma=getMoreRelevant(nb, pond);
 		for(Integer lemma:relevantLemma)
 			put(lemma,getSimilar(lemma, relevantLemma));
 	}
@@ -42,19 +42,15 @@ public class DictionaryGraph extends HashMap<Integer, HashMap<Integer, Float>> {
 		}
 	};
 
-	private HashSet<Integer> getMoreRelevant(int nb) {
+	private HashSet<Integer> getMoreRelevant(int nb, float ponderation) {
 		TreeSet<Integer> tree=new TreeSet<>(relevComparator);
 		HashSet<Integer> relevants=new HashSet<>();
 		for(Integer lemma: dictionary.keySet()){
-			scores.put(lemma, formula(dictionary.get(lemma).getKnowledge(),index.getIDF(lemma)));
+			scores.put(lemma, ponderation*dictionary.get(lemma).getKnowledge()+(1-ponderation)*index.getIDF(lemma));
 			tree.add(lemma);
 		}
 		relevants.addAll(tree.subSet(0, nb));
 		return relevants;
-	}
-
-	private Float formula(Float knowledge, Float idf) {
-		return knowledge/idf;
 	}
 	
 	

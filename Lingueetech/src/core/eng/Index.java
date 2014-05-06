@@ -35,6 +35,7 @@ public class Index {
 	private HashMap<Integer, ArrayList<Integer>> dictionnaireIdToDocs;
 	private HashMap<Integer, String> indexIdToSentences;
 	private ArrayList<Integer> idLemmeToFrequence;
+	private HashMap<Integer, ArrayList<Integer>> indexSentenceIdToLemmaIds;
 	private HashMap<Integer, Float> indexIdToIdf; // id token, son idf
 	private ArrayList<SuffixArray> indexIdtoSuffixArray; // tableaux de suffixes
 
@@ -98,7 +99,6 @@ public class Index {
 					+ "\" : " + e.getMessage());
 			return "";
 		}
-
 	}
 
 	/**
@@ -137,10 +137,13 @@ public class Index {
 			while (iterator.hasNext()) {
 				token = iterator.next();
 				// On transforme tous en minuscules pour les lemmes
-				String lemma = token.getString(LemmaAnnotation.class).toLowerCase();
+				String lemma = token.getString(LemmaAnnotation.class)
+						.toLowerCase();
+				indexSentenceIdToLemmaIds.get(temp[2]).add(idToken);
 				// On ne traite pas les num�ros et les symboles
 				if (isLemma(lemma)) {
-					// Ajouter la lemma dans l'index si elle n'est pas presente dedans
+					// Ajouter la lemma dans l'index si elle n'est pas presente
+					// dedans
 					if (!indexIdToLemme.contains(lemma)) {
 						indexLemmeToId.put(lemma, idToken);
 						indexIdToIdf.put(idToken, (float) 0);
@@ -154,31 +157,38 @@ public class Index {
 						idToken++;
 					} else {
 						itemp = -1;
-						// màj de l'arrayList du lemme existant avec la sentence actuelle
-						for (Entry<String, Integer> entry : indexLemmeToId.entrySet()) {
-							//Si le string correspond au lemme, on sauvegarde l'id dans itemp
+						// màj de l'arrayList du lemme existant avec la sentence
+						// actuelle
+						for (Entry<String, Integer> entry : indexLemmeToId
+								.entrySet()) {
+							// Si le string correspond au lemme, on sauvegarde
+							// l'id dans itemp
 							if (entry.getKey().equals(lemma))
 								itemp = entry.getValue();
+						
 						}
-						idLemmeToFrequence.set(itemp, idLemmeToFrequence.get(itemp) + 1);
-						//précaution que nous prenons : on s'assure que le lemme est bien dans notre hash, si ce n'est pas le cas problème !
+						idLemmeToFrequence.set(itemp,
+								idLemmeToFrequence.get(itemp) + 1);
+						// précaution que nous prenons : on s'assure que le
+						// lemme est bien dans notre hash, si ce n'est pas le
+						// cas problème !
 						if (itemp == -1)
 							System.out.println("c'est la merde les gars !");
-						//on peut ajouter notre id de phrase à la liste de phrases du lemme
+						// on peut ajouter notre id de phrase à la liste de
+						// phrases du lemme
 						dictionnaireIdToDocs.get(itemp).add(idSentence);
 					}
 				}
 				idSentence++;
 
 			}
-			
-			for(Integer i : indexIdToIdf.keySet())
-				indexIdToIdf.put(i, (float) Math.log(dictionnaireIdToDocs.size()/getDocs(i).size()));
-		}
-	}
 
-	public ArrayList<Integer> tokenizeSentence(String sentence, int lang) {
-		return tokenizeSentence(sentence); // TODO
+			for (Integer i : indexIdToIdf.keySet())
+				indexIdToIdf.put(
+						i,
+						(float) Math.log(dictionnaireIdToDocs.size()
+								/ getDocs(i).size()));
+		}
 	}
 
 	public ArrayList<Integer> tokenizeSentence(String sentence) {
@@ -190,6 +200,10 @@ public class Index {
 		}
 		return ids;
 	}
+	
+	public ArrayList<Integer> getSentenceIdToLemmaIds(Integer id){
+		return indexSentenceIdToLemmaIds.get(id);
+	}
 
 	/**
 	 * Recherche binaire avec lcp
@@ -200,8 +214,9 @@ public class Index {
 	 *         si expr n'est pas présent dans le corpus
 	 * @throws LingueetechException
 	 */
-	public ArrayList<Integer> sentenceIdForPhrase(String expr) throws LingueetechException {
-		/*Vérifier si la recherche a une sense*/
+	public ArrayList<Integer> sentenceIdForPhrase(String expr)
+			throws LingueetechException {
+		/* Vérifier si la recherche a une sense */
 		String s = expr.replaceAll("\\s+", " ").trim();
 		String[] words = s.split("\\s+");
 		String lemma;
@@ -232,9 +247,9 @@ public class Index {
 					} else if (compare == -1) {
 						right = middle - 1;
 					} else {
-						if(expr.length()>suffixes[middle].length()){
+						if (expr.length() > suffixes[middle].length()) {
 							left = middle + 1;
-						}else {
+						} else {
 							sentenceIdArray.add(j);
 							break;
 						}
@@ -259,8 +274,8 @@ public class Index {
 	public ArrayList<Integer> getDocs(Integer lemma) {
 		return dictionnaireIdToDocs.get(lemma);
 	}
-	
-	public Float getIDF(Integer lemma){
+
+	public Float getIDF(Integer lemma) {
 		return indexIdToIdf.get(lemma);
 	}
 
@@ -269,6 +284,10 @@ public class Index {
 	 */
 	public HashMap<String, Integer> getIndexLemmeToId() {
 		return indexLemmeToId;
+	}
+	
+	public Integer getLemmeToId(String lemme){
+		return indexLemmeToId.get(lemme);
 	}
 
 	/**
@@ -306,34 +325,27 @@ public class Index {
 		return indexIdtoSuffixArray;
 	}
 	/*
-	public static void main(String[] args) {
-
-		Index index = new Index();
-		index.tokenize("Files/test_sentences.txt");
-		// // ligne debug
-		// System.out.println(tokenization.getIndexLemmeToId().toString());
-		// System.out.println(tokenization.getIndexIdToSentences().toString());
-		// System.out.println(tokenization.getDictionnaireIdToDocs().toString());
-		// System.out.println(tokenization.getIdLemmeToFrequence().toString());
-		// //Tester la lemme (go) pour le mot went
-		// System.out.println("La lemme pour le mot went est : "+tokenization.toLemma("went"));
-		KnowledgeDictionary dico = new KnowledgeDictionary(index);
-
-		Search srch = new Search(index, dico, 0); // TODO language
-		TreeSet<Integer> tree = srch.search("is");
-		for (Integer doc : tree) {
-			System.out.println(index.getTxtDoc(doc));
-		}
-		try {
-			ArrayList<Integer> a = index.sentenceIdForPhrase("password is");
-			if(a!=null){
-			System.out.println("result" + a.toString());
-			 }
-		} catch (LingueetechException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-	}
-	*/
+	 * public static void main(String[] args) {
+	 * 
+	 * Index index = new Index(); index.tokenize("Files/test_sentences.txt"); //
+	 * // ligne debug //
+	 * System.out.println(tokenization.getIndexLemmeToId().toString()); //
+	 * System.out.println(tokenization.getIndexIdToSentences().toString()); //
+	 * System.out.println(tokenization.getDictionnaireIdToDocs().toString()); //
+	 * System.out.println(tokenization.getIdLemmeToFrequence().toString()); //
+	 * //Tester la lemme (go) pour le mot went //
+	 * System.out.println("La lemme pour le mot went est : "
+	 * +tokenization.toLemma("went")); KnowledgeDictionary dico = new
+	 * KnowledgeDictionary(index);
+	 * 
+	 * Search srch = new Search(index, dico, 0); // TODO language
+	 * TreeSet<Integer> tree = srch.search("is"); for (Integer doc : tree) {
+	 * System.out.println(index.getTxtDoc(doc)); } try { ArrayList<Integer> a =
+	 * index.sentenceIdForPhrase("password is"); if(a!=null){
+	 * System.out.println("result" + a.toString()); } } catch
+	 * (LingueetechException e) { // TODO Auto-generated catch block
+	 * e.printStackTrace(); }
+	 * 
+	 * }
+	 */
 }

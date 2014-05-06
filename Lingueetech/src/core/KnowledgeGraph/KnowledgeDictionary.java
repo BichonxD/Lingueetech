@@ -10,13 +10,13 @@ public class KnowledgeDictionary extends HashMap<Integer, LexicalInfo> {
 
 	private Index index;
 	
-	public static final float updateDocClicked = (float) 0.1,
-								updateKnown = (float) 0.35,
-								updateSeen = (float) 0.01,
-								updateInit = (float) 0.2,
-								freqThreshold = (float) 0.1;
+	public static final float updateDocClicked = (float) 0.5,
+								updateKnown = (float) 1,
+								updateSeen = (float) 0.25,
+								freqThreshold = (float) 0.1,
+								initValue = (float) 0;
 	
-	public KnowledgeDictionary(Index index) {
+	public KnowledgeDictionary(Index index){
 		super();
 		this.index = index;
 		ArrayList<Integer> id = new ArrayList<>();
@@ -26,8 +26,15 @@ public class KnowledgeDictionary extends HashMap<Integer, LexicalInfo> {
 			if(freq.get(i) > freqThreshold)
 				id.add(i);
 		}
-		
-		update(updateInit, id);
+		init(id);
+	}
+	
+	public void init(ArrayList<Integer> ids){
+		for(int t : ids){
+			LexicalInfo li = new LexicalInfo();
+			li.setKnowledge(initValue);
+			this.put(t, li);
+		}
 	}
 	
 	public void addTextKnowledge(String text) {
@@ -37,15 +44,7 @@ public class KnowledgeDictionary extends HashMap<Integer, LexicalInfo> {
 	}
 	
 	private void update(float value, ArrayList<Integer> tokens) {
-		for(int t : tokens)
-			if(this.containsKey(t)) {
-				this.get(t).increase(value);
-			}
-			else {
-				LexicalInfo li = new LexicalInfo();
-				li.setKnowledge(value);
-				this.put(t, li);
-			}
+		for(int t : tokens) this.get(t).increase(value);
 	}
 	
 	public void updateDocClicked(int doc) {
@@ -60,7 +59,7 @@ public class KnowledgeDictionary extends HashMap<Integer, LexicalInfo> {
 		update(updateSeen, id);
 	}
 	
-	public void updateToken(int token) {
+	public void known(int token) {
 		if(this.containsKey(token))
 			this.get(token).setKnowledge(1);
 		else {
