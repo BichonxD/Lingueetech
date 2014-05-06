@@ -35,7 +35,7 @@ public class Index {
 	private HashMap<Integer, ArrayList<Integer>> dictionnaireIdToDocs;
 	private HashMap<Integer, String> indexIdToSentences;
 	private ArrayList<Integer> idLemmeToFrequence;
-	private HashMap<Integer, Integer> indexIdToIdf; // id token, son idf
+	private HashMap<Integer, Float> indexIdToIdf; // id token, son idf
 	private ArrayList<SuffixArray> indexIdtoSuffixArray; // tableaux de suffixes
 
 	public Index() {
@@ -49,7 +49,7 @@ public class Index {
 		dictionnaireIdToDocs = new HashMap<Integer, ArrayList<Integer>>();
 		indexIdToSentences = new HashMap<Integer, String>();
 		idLemmeToFrequence = new ArrayList<Integer>();
-		indexIdToIdf = new HashMap<Integer, Integer>();
+		indexIdToIdf = new HashMap<Integer, Float>();
 		indexIdtoSuffixArray = new ArrayList<SuffixArray>();
 
 		// Préciser les attributs à reconnaitre pour chauqe phrase, on construit
@@ -136,17 +136,14 @@ public class Index {
 			// Pour chaque mot de la phrase
 			while (iterator.hasNext()) {
 				token = iterator.next();
-<<<<<<< HEAD
 				// On transforme tous en minuscules pour les lemmes
-				String lemma = token.getString(LemmaAnnotation.class)
-						.toLowerCase();
+				String lemma = token.getString(LemmaAnnotation.class).toLowerCase();
 				// On ne traite pas les num�ros et les symboles
 				if (isLemma(lemma)) {
-					// Ajouter la lemma dans l'index si elle n'est pas presente
-					// dedans
+					// Ajouter la lemma dans l'index si elle n'est pas presente dedans
 					if (!indexIdToLemme.contains(lemma)) {
 						indexLemmeToId.put(lemma, idToken);
-						indexIdToIdf.put(idToken, 0);
+						indexIdToIdf.put(idToken, (float) 0);
 						indexIdToLemme.add(lemma);
 						idLemmeToFrequence.add(1);
 						// Ajouter lemma dans le dictionnaire s'il n'est pas
@@ -157,82 +154,27 @@ public class Index {
 						idToken++;
 					} else {
 						itemp = -1;
-						// màj de l'arrayList du lemme existant avec la sentence
-						// actuelle
-						for (Entry<String, Integer> entry : indexLemmeToId
-								.entrySet()) {
-							// Si le string correspond au lemme, on sauvegarde
-							// l'id dans itemp
+						// màj de l'arrayList du lemme existant avec la sentence actuelle
+						for (Entry<String, Integer> entry : indexLemmeToId.entrySet()) {
+							//Si le string correspond au lemme, on sauvegarde l'id dans itemp
 							if (entry.getKey().equals(lemma))
 								itemp = entry.getValue();
-=======
-				token = iterator.next();
-				// Pour chaque mot de la phrase
-				while (iterator.hasNext()) {
-					token = iterator.next();
-					// On transforme tous en minuscules pour les lemmes
-					String lemma = token.getString(LemmaAnnotation.class).toLowerCase();
-					// On ne traite pas les num�ros et les symboles
-					if (isLemma(lemma)) {
-						// Ajouter la lemma dans l'index si elle n'est pas presente dedans
-						if (!indexIdToLemme.contains(lemma)) {
-							indexLemmeToId.put(lemma, idToken);
-							indexIdToIdf.put(idToken, (float)0);
-							indexIdToLemme.add(lemma);
-							idLemmeToFrequence.add(1);
-							// Ajouter lemma dans le dictionnaire s'il n'est pas
-							// présent : créer l'arraylist de sentence correspondant
-							ArrayList<Integer> t = new ArrayList<Integer>();
-							t.add(idSentence);
-							dictionnaireIdToDocs.put(idToken, t);
-							idToken++;
-						} else {
-							itemp = -1;
-							// màj de l'arrayList du lemme existant avec la sentence actuelle
-							for (Entry<String, Integer> entry : indexLemmeToId.entrySet()) {
-								//Si le string correspond au lemme, on sauvegarde l'id dans itemp
-								if (entry.getKey().equals(lemma))
-									itemp = entry.getValue();
-							}
-							idLemmeToFrequence.set(itemp, idLemmeToFrequence.get(itemp) + 1);
-							//précaution que nous prenons : on s'assure que le lemme est bien dans notre hash, si ce n'est pas le cas problème !
-							if (itemp == -1)
-								System.out.println("c'est la merde les gars !");
-							//on peut ajouter notre id de phrase à la liste de phrases du lemme
-							dictionnaireIdToDocs.get(itemp).add(idSentence);
->>>>>>> 5a67e1350f07ef4f8be57974d9869080197e066e
 						}
-						idLemmeToFrequence.set(itemp,
-								idLemmeToFrequence.get(itemp) + 1);
-						// précaution que nous prenons : on s'assure que le
-						// lemme est bien dans notre hash, si ce n'est pas le
-						// cas problème !
+						idLemmeToFrequence.set(itemp, idLemmeToFrequence.get(itemp) + 1);
+						//précaution que nous prenons : on s'assure que le lemme est bien dans notre hash, si ce n'est pas le cas problème !
 						if (itemp == -1)
 							System.out.println("c'est la merde les gars !");
-						// on peut ajouter notre id de phrase à la liste de
-						// phrases du lemme
+						//on peut ajouter notre id de phrase à la liste de phrases du lemme
 						dictionnaireIdToDocs.get(itemp).add(idSentence);
 					}
 				}
-<<<<<<< HEAD
-=======
 				idSentence++;
 
 			}
-			for(Integer i : indexIdToIdf.keySet()){
+			
+			for(Integer i : indexIdToIdf.keySet())
 				indexIdToIdf.put(i, (float) Math.log(dictionnaireIdToDocs.size()/getDocs(i).size()));
->>>>>>> 5a67e1350f07ef4f8be57974d9869080197e066e
-			}
-			idSentence++;
-
 		}
-		for (Integer i : indexIdToIdf.keySet()) {
-			indexIdToIdf.put(
-					i,
-					(int) (Math.log(dictionnaireIdToDocs.size()
-							/ getDocs(i).size())));
-		}
-
 	}
 
 	public ArrayList<Integer> tokenizeSentence(String sentence, int lang) {
