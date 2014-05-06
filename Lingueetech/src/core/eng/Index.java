@@ -9,10 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Properties;
-import java.util.TreeSet;
 
-import core.KnowledgeGraph.KnowledgeDictionary;
-import core.searchUtil.Search;
 import edu.stanford.nlp.io.IOUtils;
 import edu.stanford.nlp.ling.CoreAnnotations.LemmaAnnotation;
 import edu.stanford.nlp.ling.CoreAnnotations.SentencesAnnotation;

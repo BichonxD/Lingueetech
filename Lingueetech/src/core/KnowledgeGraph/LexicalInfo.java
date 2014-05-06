@@ -2,13 +2,14 @@ package core.KnowledgeGraph;
 
 public class LexicalInfo {
 	float knowledge;
+	float progress=0.5f;
 	
 	public LexicalInfo() {
 		knowledge = 0;
 	}
 
 	public void increase(float value) {
-		knowledge = Math.min(1, knowledge + value);
+		knowledge += (1-knowledge)*progress;
 	}
 	
 	public void setKnowledge(float knowledge) {

@@ -33,7 +33,7 @@ public class SearchAction extends AbstractAction {
 		Index index = new Index();
 		index.tokenize("Files/test_sentences.txt");
 		KnowledgeDictionary dico = new KnowledgeDictionary(index);
-		Search srch = new Search(index, dico, 0); //TODO language
+		Search srch = new Search(index, dico);
 		TreeSet<Integer> tree= srch.search(searchParam.getQuery());
 		// Création de la reponse 
 		JSONObject jsonResponse = new JSONObject();

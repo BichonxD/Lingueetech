@@ -14,7 +14,6 @@ public class Search {
 	private Index index;
 	private KnowledgeDictionary dico;
 	private HashMap<Integer, Float> scoreDoc = null;
-	private int language;
 
 	private final Comparator<Integer> relevComparator = new Comparator<Integer>() {
 		public int compare(Integer d1, Integer d2) {
@@ -29,15 +28,14 @@ public class Search {
 	};
 
 	/* CONSTRUCTOR */
-	public Search(Index index, KnowledgeDictionary dico, int language) {
+	public Search(Index index, KnowledgeDictionary dico) {
 		this.index = index;
 		this.dico = dico;
-		this.language = language;
 	}
 
 	/* METHODS */
 	public TreeSet<Integer> search(String keywords) {
-		ArrayList<Integer> tokens = index.tokenizeSentence(keywords, language);
+		ArrayList<Integer> tokens = index.tokenizeSentence(keywords);
 		ArrayList<Integer> listDocs = new ArrayList<>();
 		scoreDoc = new HashMap<>();
 
