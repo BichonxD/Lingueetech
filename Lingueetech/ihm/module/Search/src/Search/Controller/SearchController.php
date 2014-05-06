@@ -15,7 +15,18 @@ class SearchController extends AbstractActionController
 {
     public function indexAction()
     {
-        return array();
+        $sentences = array();
+        $sentences[] = "Je m'apelle Jambon";
+        $sentences[] = "Le jambon c'est bon";
+        $sentences[] = "hjkhfjkehf";
+        $sentences[] = "jgldgdmg";
+        $sentences[] = "ksngklsgseg";
+        $sentences[] = "jhfjshfe";
+        $sentences[] = "lksglkn";
+        $sentences[] = "ksefkgsg";
+        $sentences[] = "kjzeklfzef";
+        $sentences[] = "kjdkfjlskf";
+        return array('sentences' => $sentences);
     }
 
     public function fooAction()

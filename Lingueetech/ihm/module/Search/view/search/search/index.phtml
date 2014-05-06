@@ -1,36 +1,34 @@
-<?php
-    $query = "exemple"; // Expression recherchee
-    $results = 5; // Nombre de resultats
-    $hard = 2; // Nombre de phrases difficiles
-    $easy = 1; // Nombre de phrase faciles
-    $page = 1; // Numero de page
+<?php 
+$click = 0;
+$classephrase = "";
+if($click == 0){
+    $classephrase = "Phrases";
+}
+else{
+    $classephrase = "PhrasesLu";
+}
+$motCherche = "Jambon"; // Mot chercher par l'utilisateur;
+$tokens = array("This" => 0.6, "is" => 0.5, "an" => 0.8, "example." => 0.2);
+$difficulty = "hard"; // Difficulte [easy, normal, hard]
+$fav = true; // Temoin de favori
+$like = 5; // Nombre de "J'aime"
+$dislike = 2; // Nombre de "Je n'aime pas"
 ?>
 
-<?php include 'module/Application/view/item/form.php'; ?>
-<section id="data">
-    <h3 class="text-center">
-        <?php echo $results; ?> r&eacute;sultat<?php if($results > 1) echo "s"; ?>
-        pour <strong>"<?php echo $query; ?>"</strong>
-    </h3>
-    <div class="progress">
-        <div class="progress-bar progress-bar-success" style="width: <?php echo 100 * $easy / floatval($results); ?>%">
-            <span class="sr-only"><?php echo 100 * $easy / floatval($results); ?>% facile</span>
-        </div>
-        <div class="progress-bar progress-bar-danger" style="width: <?php echo 100 * $hard / floatval($results); ?>%">
-            <span class="sr-only"><?php echo 100 * $easy / floatval($results); ?>% difficile</span>
-        </div>
-    </div>
-    <h3>Filtres</h3>
-    <div class="btn-toolbar" role="toolbar">
-        <div class="btn-group">
-            <button type="button" class="btn btn-info" name="easy">Facile</button>
-            <button type="button" class="btn btn-info" name="normal">Moyen</button>
-            <button type="button" class="btn btn-info" name="hard">Difficile</button>
-        </div>
-    </div>
-    <script type="text/javascript">
-    $("#data .btn-group .btn").click(function(event) {
-        $("#results div.panel." +
+<div class="Titre text-center">
+	<?php if($motCherche == ""):?>
+	<?php elseif ( $motCherche != "" ) :?>
+	<h2> Recherche : <?php echo $motCherche ?></h2>
+	<?php endif;?>
+	<h3 class="Titre">Filtres</h3>
+	<button type="button" class="btn btn-info" name="easy">Facile</button>
+	<button type="button" class="btn btn-info" name="normal">Moyen</button>
+	<button type="button" class="btn btn-info" name="hard">Difficile</button>
+</div>
+
+<script type="text/javascript">
+    $(".Titre .btn").click(function(event) {
+        $("div.PhraseEntiere ." +
             $(this)
             .toggleClass("btn-info")
             .attr("name")
@@ -38,25 +36,77 @@
     }).hover(function(event) {
         $("#results div.panel:not(." + $(this).attr("name") + ")").toggleClass("text-muted");
     });
-    </script>
-</section>
-<hr>
-<section id="results">
-    <ul class="list-unstyled">
-        <?php for($i = 0; $i < $results; $i++) { ?>
-        <li><?php include 'module/Application/view/item/result.php'; ?></li>
-        <?php } ?>
-    </ul>
-    <hr>
-    <div class="text-center">
-        <ul class="pagination" >
-            <li class="disabled" title="Pr&eacute;c&eacute;dent"><a href="#"><i class="fa fa-angle-left"></i></a></li>
-            <li class="active"><a href="#">1</a></li>
-            <li><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-            <li><a href="#">4</a></li>
-            <li><a href="#">5</a></li>
-            <li><a href="#" title="Suivant"><i class="fa fa-angle-right"></i></a></li>
-        </ul>
+ function enter(elem, id){
+	elem.style.backgroundColor = '#CCFFCC';
+	$(id).modal({ 'show' : true });
+ }
+</script>
+
+<?php foreach ($sentences as $id => $sentence ):?>
+<div class="PhraseEntiere"> 
+    <div class="Phrases <?php
+        if($difficulty == "easy") echo "easy";
+        else if($difficulty == "hard") echo "hard";
+        else echo "normal";
+?>" onclick="enter(this,'#m<?php echo $id ?>')">
+        <span class="textPhrase"><?php echo $sentence ?></span>
+        <span class="label
+		        <?php
+		                if($difficulty == "easy") echo "label-success";
+		                else if($difficulty == "hard") echo "label-danger";
+		                else echo "label-default";
+		        ?> pull-right"
+		        >
+		            <?php
+		                if($difficulty == "easy") echo "Facile";
+		                else if($difficulty == "hard") echo "Difficile";
+		                else echo "Normal";
+		            ?>
+		</span>
     </div>
-</section>
+<div class="modal fade" tabindex="-1" role="dialog" id="m<?php echo $id ?>" aria-hidden="true">
+	<div class="modal-dialog">
+	    <div class="modal-content">
+	      	<div class="modal-header">
+	        	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	        	<span class="label
+		        <?php
+		                if($difficulty == "easy") echo "label-success";
+		                else if($difficulty == "hard") echo "label-danger";
+		                else echo "label-default";
+		        ?>"
+		        >
+		            <?php
+		                if($difficulty == "easy") echo "Facile";
+		                else if($difficulty == "hard") echo "Difficile";
+		                else echo "Normal";
+		            ?>
+			    </span>
+	      	</div>
+	      	<div class="modal-body">
+				<?php echo $sentence  ?>
+	    	</div>
+			<div class="modal-footer fa-lg">
+				<div class="pull-left">
+				<a title="Ajouter &agrave; une liste"><i class="fa fa-plus-circle"></i></a>
+				<a title="Ajouter aux favoris" <?php if($fav) echo "class='text-info'"?>><i class="fa fa-star"></i></a>
+				</div>
+		        <div>
+		            <a title="J'aime"><i class="fa fa-thumbs-up"></i></a>
+		            <a title="Je n'aime pas"><i class="fa fa-thumbs-down"></i></a>
+		            <span class="badge"><?php echo $like - $dislike; ?></span>
+		        </div>
+	    	</div>
+		</div>
+	</div>
+</div>
+
+<?php endforeach;?>
+<script>
+    $(".modal-body a").css("color", function(index, value) {
+        var green = parseInt(parseFloat($(this).attr("data-score")) * 255);
+    	return green < 200 ? "rgb(255, " + green + ", 0)" : value;
+    }).click(function(event) {
+	});
+</script>
+<button type="button" class=" bouton btn btn-info">Autres phrases</button>

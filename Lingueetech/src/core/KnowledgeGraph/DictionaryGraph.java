@@ -7,7 +7,7 @@ import java.util.TreeSet;
 
 import core.eng.Index;
 
-// Tel quel, les arêtes sont en double...
+// Tel quel, les aretes sont en double...
 public class DictionaryGraph extends HashMap<Integer, HashMap<Integer, Float>> {
 	/**
 	 * 
