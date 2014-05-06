@@ -1,8 +1,6 @@
 package action;
 
-
 import exception.ActionHandlerException;
-
 import exception.InvalidParamException;
 import exception.InvalidRequestException;
 import json.JSONArray;
@@ -25,10 +23,18 @@ public class SearchAction extends AbstractAction {
 
 	@Override
 	public AbstractResponse handleRequest() throws ActionHandlerException{
+		/*
+		Index index = new Index();
+		index.tokenize("Files/test_sentences.txt");
+		KnowledgeDictionary dico = new KnowledgeDictionary(index);
+		Search srch = new Search(index, dico);
 		
+		
+		TreeSet<Integer> tree = srch.search(searchParam.getQuery());
+		*/
 		// Création de la reponse 
 		JSONObject jsonResponse = new JSONObject();
-
+		
 		// Initialiser l'objet JSON
 		/*
 		sentences = [ {
@@ -60,6 +66,8 @@ public class SearchAction extends AbstractAction {
 			jsonResponse.accumulate("sentences", sentence);
 			jsonResponse.accumulate("sentences", sentence);
 		
+ 		
+ 		
 		// Retour de la reponse au client 
 		SuccessResponse successResponse = new SuccessResponse(jsonResponse);
 		return successResponse;	

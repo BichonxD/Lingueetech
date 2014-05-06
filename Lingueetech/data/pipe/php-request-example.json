@@ -2,8 +2,12 @@
     "request"   : {
         "action"    : "ClikedOrViewed",
         "params"    : {
+<<<<<<< HEAD
             "id"     : 123456,
             "event" : "Clicked" 
+=======
+            "query"     : "to" 
+>>>>>>> 12ab756a1ce0cbf0b6bfcfd0f036194ee3356091
         }
     }
 }

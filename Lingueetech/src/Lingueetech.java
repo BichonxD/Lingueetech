@@ -1,9 +1,12 @@
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.lang.management.ManagementFactory;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
@@ -42,11 +45,15 @@ public class Lingueetech {
 
 	public static void main(String[] args) {
 
+			
 		// Initialise L'application Lingueetech
 		Lingueetech.initialize();
 
+	 
 		// Traite toutes les requetes entrantes des utilisateurs 
 		Lingueetech.handleAllRequest();
+		 
+			
 	}
 
 
@@ -90,7 +97,11 @@ public class Lingueetech {
 		catch (IOException e) {
 
 			e.printStackTrace();
+			
 		}
+		
+		// Supprime le pid de l'applictaion Java
+		
 
 	}
 
@@ -107,6 +118,16 @@ public class Lingueetech {
 		actionMatchingTable.put("ClickedOrViewed", new ClikedOrViewedAction());	
 		
 		
+		// Sauvegarde du pid de l'application lingueetech
+		try {
+			File file = new File("data/pipe/Lingueetech.pid");
+			file.deleteOnExit();
+			BufferedWriter output = new BufferedWriter(new FileWriter(file));
+			output.write(ManagementFactory.getRuntimeMXBean().getName().split("@")[0]);
+			output.close();
+		} catch ( IOException e ) {
+			e.printStackTrace();
+		}
 		
 		// Autres Initialisations .... 
 	}

@@ -7,6 +7,9 @@ class SocketManager {
     
     const IP_ADRESS = '127.0.0.1';
     
+	const JAVA_APP_BIN_DIR_PATH = './../bin';
+	const JAVA_APP_PID_PATH = './../data/pipe/Lingueetech.pid';
+	 
     /**
      * Ressource de connexion a l'application Java
      * Doit etre créer par l'appel a socket_create
@@ -23,7 +26,12 @@ class SocketManager {
     public static $connexionId;
     
     public  static function initialize(){
-        
+        /*
+		if ( !file_exists(self::JAVA_APP_PID_PATH) ) {
+ 			$result = shell_exec("java -cp " .  self::JAVA_APP_BIN_DIR_PATH  . " Lingueetech  > /dev/null &");
+			var_dump(file_exists(self::JAVA_APP_PID_PATH));
+		}
+		*/
         // Création d'un nouveau socket
         self::$sock = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
          
