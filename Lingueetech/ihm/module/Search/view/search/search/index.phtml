@@ -8,43 +8,105 @@ else{
     $classephrase = "PhrasesLu";
 }
 $motCherche = "Jambon"; // Mot chercher par l'utilisateur;
+$tokens = array("This" => 0.6, "is" => 0.5, "an" => 0.8, "example." => 0.2);
+$difficulty = "hard"; // Difficulte [easy, normal, hard]
+$fav = true; // Temoin de favori
+$like = 5; // Nombre de "J'aime"
+$dislike = 2; // Nombre de "Je n'aime pas"
 ?>
-<?php if($motCherche == ""):?>
 
-<?php elseif ( $motCherche != "" ) :?>
-<h2 class="Titre text-center" > Recherche : <?php echo $motCherche ?></h2>
-<?php endif;?>
+<div class="Titre text-center">
+	<?php if($motCherche == ""):?>
+	<?php elseif ( $motCherche != "" ) :?>
+	<h2> Recherche : <?php echo $motCherche ?></h2>
+	<?php endif;?>
+	<h3 class="Titre">Filtres</h3>
+	<button type="button" class="btn btn-info" name="easy">Facile</button>
+	<button type="button" class="btn btn-info" name="normal">Moyen</button>
+	<button type="button" class="btn btn-info" name="hard">Difficile</button>
+</div>
+
 <script type="text/javascript">
+    $(".Titre .btn").click(function(event) {
+        $("div.PhraseEntiere ." +
+            $(this)
+            .toggleClass("btn-info")
+            .attr("name")
+        ).slideToggle();
+    }).hover(function(event) {
+        $("#results div.panel:not(." + $(this).attr("name") + ")").toggleClass("text-muted");
+    });
  function enter(elem, id){
- 
-     elem.style.backgroundColor = '#CCFFCC';
-    	    $(id).modal({
-    	        'show' : true
-    	    });
+	elem.style.backgroundColor = '#CCFFCC';
+	$(id).modal({ 'show' : true });
  }
 </script>
+
 <?php foreach ($sentences as $id => $sentence ):?>
-<div class="PhraseEntiere" data-toggle="modal" data-target="#myModal">
-    <div  class="Phrases" onclick="enter(this,'#m<?php echo $id ?>')">
-        <span class="textPhrase"><?php echo $sentence  ?></span>
+<div class="PhraseEntiere"> 
+    <div class="Phrases <?php
+        if($difficulty == "easy") echo "easy";
+        else if($difficulty == "hard") echo "hard";
+        else echo "normal";
+?>" onclick="enter(this,'#m<?php echo $id ?>')">
+        <span class="textPhrase"><?php echo $sentence ?></span>
+        <span class="label
+		        <?php
+		                if($difficulty == "easy") echo "label-success";
+		                else if($difficulty == "hard") echo "label-danger";
+		                else echo "label-default";
+		        ?> pull-right"
+		        >
+		            <?php
+		                if($difficulty == "easy") echo "Facile";
+		                else if($difficulty == "hard") echo "Difficile";
+		                else echo "Normal";
+		            ?>
+		</span>
     </div>
+<div class="modal fade" tabindex="-1" role="dialog" id="m<?php echo $id ?>" aria-hidden="true">
+	<div class="modal-dialog">
+	    <div class="modal-content">
+	      	<div class="modal-header">
+	        	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	        	<span class="label
+		        <?php
+		                if($difficulty == "easy") echo "label-success";
+		                else if($difficulty == "hard") echo "label-danger";
+		                else echo "label-default";
+		        ?>"
+		        >
+		            <?php
+		                if($difficulty == "easy") echo "Facile";
+		                else if($difficulty == "hard") echo "Difficile";
+		                else echo "Normal";
+		            ?>
+			    </span>
+	      	</div>
+	      	<div class="modal-body">
+				<?php echo $sentence  ?>
+	    	</div>
+			<div class="modal-footer fa-lg">
+				<div class="pull-left">
+				<a title="Ajouter &agrave; une liste"><i class="fa fa-plus-circle"></i></a>
+				<a title="Ajouter aux favoris" <?php if($fav) echo "class='text-info'"?>><i class="fa fa-star"></i></a>
+				</div>
+		        <div>
+		            <a title="J'aime"><i class="fa fa-thumbs-up"></i></a>
+		            <a title="Je n'aime pas"><i class="fa fa-thumbs-down"></i></a>
+		            <span class="badge"><?php echo $like - $dislike; ?></span>
+		        </div>
+	    	</div>
+		</div>
+	</div>
 </div>
-<div class="modal fade" id="m<?php echo $id ?>">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title">Regarde de plus près</h4>
-      </div>
-      <div class="modal-body">
-        <p><?php echo $sentence?></p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
-<?php endforeach;?> 
+
+<?php endforeach;?>
+<script>
+    $(".modal-body a").css("color", function(index, value) {
+        var green = parseInt(parseFloat($(this).attr("data-score")) * 255);
+    	return green < 200 ? "rgb(255, " + green + ", 0)" : value;
+    }).click(function(event) {
+	});
+</script>
 <button type="button" class=" bouton btn btn-info">Autres phrases</button>
