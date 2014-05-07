@@ -19,7 +19,7 @@ public class DictionaryGraph extends HashMap<Integer, HashMap<Integer, Float>> {
 	private KnowledgeDictionary dictionary;
 	private Index index;
 	private HashMap<Integer, Float> scores;
-	private float thresholdSimilarity=0.6f, thresholdZone = 0.7f;
+	private float thresholdSimilarity=0.6f, thresholdZone = 0.8f;
 	
 	public DictionaryGraph(Index index, KnowledgeDictionary dictionary, Word2Vec w2v, int nb, float pond){
 		this.index=index;
@@ -59,7 +59,8 @@ public class DictionaryGraph extends HashMap<Integer, HashMap<Integer, Float>> {
 		for(int i : lemmas)
 			slemmas.add(index.getIndexIdToLemme().get(i));
 		
-		sim = /* fonction w2v */;
+		//Obtenir des mots similaires a la fois a tous ceux dans 'lemmas'
+		sim = w2v.close(slemmas);
 		
 		for(String s : sim) {
 			if(results.size() < nb)
@@ -89,7 +90,7 @@ public class DictionaryGraph extends HashMap<Integer, HashMap<Integer, Float>> {
 		return relevants;
 	}
 	
-	/* Obtenir une HashSet contenant nb mots proches dans le graphe */
+	/* Obtenir une HashSet contenant nb mots proches les uns des autres dans le graphe */
 	public HashSet<Integer> getRdmZone(int nb) {
 		int ind = (int) Math.random() * (this.size() + 1);
 		HashMap<Integer, Float> start = this.get(ind);

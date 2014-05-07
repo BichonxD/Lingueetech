@@ -82,6 +82,7 @@ public class Search{
 		return docs;
 	}
 	
+	/* Demander au systeme des documents contenant des mots interessants inconnus dans des documents faciles */
 	public TreeSet<Integer> searchImprove() {
 		TreeSet<Integer> docs = new TreeSet<>(eduComparator);
 		HashSet<Integer> lemmas = graph.getSimilar(graph.getRdmZone(5), 5);
