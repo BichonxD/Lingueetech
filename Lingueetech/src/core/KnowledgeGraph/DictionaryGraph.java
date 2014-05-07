@@ -93,16 +93,20 @@ public class DictionaryGraph extends HashMap<Integer, HashMap<Integer, Float>> {
 	/* Obtenir une HashSet contenant nb mots proches les uns des autres dans le graphe */
 	public HashSet<Integer> getRdmZone(int nb) {
 		int ind = (int) Math.random() * (this.size() + 1);
-		HashMap<Integer, Float> start = this.get(ind);
+		HashMap<Integer, Float> start = this.get(ind), pstart = null;
 		ArrayList<Integer> lemmas = new ArrayList<>();
 		
 		lemmas.add(ind);
 		while(lemmas.size() < nb) {
+			if(pstart == start)
+				break;
+			
 			for(int i : start.keySet()) {
 				if(start.get(i) >= thresholdZone && !lemmas.contains(i)) {
 					lemmas.add(i);
 				}
 			}
+			pstart = start;
 			start = this.get(lemmas.get(lemmas.size()-1));
 		}
 		
