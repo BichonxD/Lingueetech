@@ -33,7 +33,7 @@ public class Search{
 	private final Comparator<Integer> eduComparator = new Comparator<Integer>() {
 		public int compare(Integer d1, Integer d2) {
 			int res=getKnowledge(d2).compareTo(getKnowledge(d1));
-			return (res == 0) ? 1 : res; /*Egalit? interdite pour le treeset*/
+			return (res == 0) ? 1 : res; /*Egalite interdite pour le treeset*/
 		}
 	};
 
@@ -68,9 +68,13 @@ public class Search{
 		return tree;
 	}
 	
-	public TreeSet<Integer> searchEdu(String keyword) {
-		TreeSet<Integer> sentences=new TreeSet<>(eduComparator);
-		sentences.addAll(index.getDocs(index.getLemmeToId(index.toLemma(keyword))));
+	public TreeSet<Integer> searchEdu(String keywords) {
+		ArrayList<Integer> tokens = index.tokenizeSentence(keywords);
+		TreeSet<Integer> sentences = new TreeSet<>(eduComparator);
+
+		for(Integer t : tokens)
+			sentences.addAll(index.getDocs(t));
+		
 		return sentences;
 	}
 
@@ -78,7 +82,7 @@ public class Search{
 		float s=0;
 		ArrayList<Integer> lemmas=index.getSentenceIdToLemmaIds(doc);
 		for(Integer lm:lemmas){
-			s+=dico.get(lm).getKnowledge();
+			s += dico.get(lm).getKnowledge();
 		}
 		return s/lemmas.size();
 	}
