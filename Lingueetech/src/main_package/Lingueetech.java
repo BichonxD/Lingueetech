@@ -14,6 +14,7 @@ import java.util.HashMap;
 
 import core.KnowledgeGraph.KnowledgeDictionary;
 import core.eng.Index;
+import core.searchUtil.Word2Vec;
 
 import action.AbstractAction;
 import action.ClikedOrViewedAction;
@@ -46,6 +47,7 @@ public class Lingueetech {
 
 	public static KnowledgeDictionary dico;
 	public static Index index;
+	public static Word2Vec w2v;
 
 
 	public static void main(String[] args) {
@@ -137,6 +139,7 @@ public class Lingueetech {
 		index = new Index();
 		index.tokenize("Files/test_sentences.txt");
 		dico = new KnowledgeDictionary(index);
+		w2v = Word2Vec.getInstance();
 	}
 
 

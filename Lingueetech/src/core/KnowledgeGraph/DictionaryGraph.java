@@ -1,11 +1,13 @@
 package core.KnowledgeGraph;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.TreeSet;
 
 import core.eng.Index;
+import core.searchUtil.Word2Vec;
 
 // Tel quel, les aretes sont en double...
 public class DictionaryGraph extends HashMap<Integer, HashMap<Integer, Float>> {
@@ -13,14 +15,16 @@ public class DictionaryGraph extends HashMap<Integer, HashMap<Integer, Float>> {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private Word2Vec w2v;
 	private KnowledgeDictionary dictionary;
 	private Index index;
 	private HashMap<Integer, Float> scores;
 	private float thresholdSimilarity=0.6f;
 	
-	public DictionaryGraph(Index index, KnowledgeDictionary dictionary, int nb, float pond){
+	public DictionaryGraph(Index index, KnowledgeDictionary dictionary, Word2Vec w2v, int nb, float pond){
 		this.index=index;
 		this.dictionary=dictionary;
+		this.w2v = w2v;
 		scores=new HashMap<>();
 		fillGraph(nb, pond);
 	}
@@ -41,10 +45,10 @@ public class DictionaryGraph extends HashMap<Integer, HashMap<Integer, Float>> {
 		}
 	}
 
-	//@TODO
 	public float getSimilarity(Integer lm1, Integer lm2){
+		ArrayList<String> idToLemma = index.getIndexIdToLemme();
 		
-		return 00;
+		return (float) w2v.distance(idToLemma.get(lm1), idToLemma.get(lm2));
 	}
 
 	private final Comparator<Integer> relevComparator = new Comparator<Integer>() {
