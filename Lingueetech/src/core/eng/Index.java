@@ -28,7 +28,7 @@ public class Index {
 	private StanfordCoreNLP core;
 	// les structures de l'index
 	private HashMap<String, Integer> indexLemmeToId;
-	private ArrayList<String> indexIdToLemme; // probablement non nécessaire car
+	private ArrayList<String> indexIdToLemme; // probablement non n��cessaire car
 												// la perte de place est
 												// surement trop grande pour le
 												// gain de temps trop petit
@@ -42,7 +42,7 @@ public class Index {
 	public Index() {
 		// initialiser les structures de l'index
 		indexLemmeToId = new HashMap<String, Integer>();
-		indexIdToLemme = new ArrayList<String>(); // probablement non nécessaire
+		indexIdToLemme = new ArrayList<String>(); // probablement non n��cessaire
 													// car la perte de place est
 													// surement trop grande pour
 													// le gain de temps trop
@@ -52,8 +52,9 @@ public class Index {
 		idLemmeToFrequence = new ArrayList<Integer>();
 		indexIdToIdf = new HashMap<Integer, Float>();
 		indexIdtoSuffixArray = new ArrayList<SuffixArray>();
-
-		// Préciser les attributs à reconnaitre pour chauqe phrase, on construit
+		indexSentenceIdToLemmaIds = new  HashMap<Integer, ArrayList<Integer>>();
+		
+		// Pr��ciser les attributs �� reconnaitre pour chauqe phrase, on construit
 		// l'index par les lemmes
 		Properties props = new Properties();
 		props.put("annotators", "tokenize, ssplit, pos, lemma");
@@ -63,7 +64,7 @@ public class Index {
 	}
 
 	/**
-	 * Vérifier que le str en parametre est un nombre n'est ni un nombre ni un
+	 * V��rifier que le str en parametre est un nombre n'est ni un nombre ni un
 	 * symbole
 	 * 
 	 * @param str
@@ -102,7 +103,7 @@ public class Index {
 	}
 
 	/**
-	 * Analyser un fichier et enregistrer les éléments obtenus dans les
+	 * Analyser un fichier et enregistrer les ��l��ments obtenus dans les
 	 * structures
 	 * 
 	 * @param path
@@ -116,14 +117,15 @@ public class Index {
 		// variables temporaires
 		String[] temp;
 		Integer itemp = -1;
-		// variables à remplir
+		// variables �� remplir
 		int idToken = 0, idSentence = 0;
 		// On traite chaque phrase dans le fichier separament
 		// un CoreMap est un Map qui utilise les objest de classe comme les
 		// clefs et les types des valeurs est un choix libre
 		List<CoreMap> sentences = document.get(SentencesAnnotation.class);
 		for (CoreMap sentence : sentences) {
-			temp = sentence.toString().split("\t");
+			temp = sentence.toString().split("\\s+");
+			System.out.println(temp[2]);
 			indexIdToSentences.put(idSentence, temp[2]);
 			indexIdtoSuffixArray.add(new SuffixArray(temp[2]));
 			// Liste des tokens dans la phrase actuelle
@@ -139,8 +141,13 @@ public class Index {
 				// On transforme tous en minuscules pour les lemmes
 				String lemma = token.getString(LemmaAnnotation.class)
 						.toLowerCase();
-				indexSentenceIdToLemmaIds.get(temp[2]).add(idToken);
-				// On ne traite pas les num�ros et les symboles
+				/*if ( indexSentenceIdToLemmaIds.get(temp[2]) != null  )
+					indexSentenceIdToLemmaIds.get(temp[2]).add(idToken);
+				else {
+					
+					indexSentenceIdToLemmaIds.put(temp[2], new ArrayList<Integer>(idToken));
+				}*/
+				// On ne traite pas les num���ros et les symboles
 				if (isLemma(lemma)) {
 					// Ajouter la lemma dans l'index si elle n'est pas presente
 					// dedans
@@ -150,14 +157,14 @@ public class Index {
 						indexIdToLemme.add(lemma);
 						idLemmeToFrequence.add(1);
 						// Ajouter lemma dans le dictionnaire s'il n'est pas
-						// présent : créer l'arraylist de sentence correspondant
+						// pr��sent : cr��er l'arraylist de sentence correspondant
 						ArrayList<Integer> t = new ArrayList<Integer>();
 						t.add(idSentence);
 						dictionnaireIdToDocs.put(idToken, t);
 						idToken++;
 					} else {
 						itemp = -1;
-						// màj de l'arrayList du lemme existant avec la sentence
+						// m��j de l'arrayList du lemme existant avec la sentence
 						// actuelle
 						for (Entry<String, Integer> entry : indexLemmeToId
 								.entrySet()) {
@@ -169,12 +176,12 @@ public class Index {
 						}
 						idLemmeToFrequence.set(itemp,
 								idLemmeToFrequence.get(itemp) + 1);
-						// précaution que nous prenons : on s'assure que le
+						// pr��caution que nous prenons : on s'assure que le
 						// lemme est bien dans notre hash, si ce n'est pas le
-						// cas problème !
+						// cas probl��me !
 						if (itemp == -1)
 							System.out.println("c'est la merde les gars !");
-						// on peut ajouter notre id de phrase à la liste de
+						// on peut ajouter notre id de phrase �� la liste de
 						// phrases du lemme
 						dictionnaireIdToDocs.get(itemp).add(idSentence);
 					}
@@ -209,14 +216,14 @@ public class Index {
 	 * Recherche binaire avec lcp
 	 * 
 	 * @param expr
-	 *            l'expression à cherche dans le corpus
+	 *            l'expression �� cherche dans le corpus
 	 * @return liste des idSentence des pharses qui contient l'expression,null
-	 *         si expr n'est pas présent dans le corpus
+	 *         si expr n'est pas pr��sent dans le corpus
 	 * @throws LingueetechException
 	 */
 	public ArrayList<Integer> sentenceIdForPhrase(String expr)
 			throws LingueetechException {
-		/* Vérifier si la recherche a une sense */
+		/* V��rifier si la recherche a une sense */
 		String s = expr.replaceAll("\\s+", " ").trim();
 		String[] words = s.split("\\s+");
 		String lemma;
@@ -228,7 +235,7 @@ public class Index {
 		}
 		if (notLemma == true)
 			return null;
-		/* Vérifier si expr est présent */
+		/* V��rifier si expr est pr��sent */
 		ArrayList<Integer> sentenceIdArray = new ArrayList<Integer>();
 		int size = expr.length();
 		for (int j = 0; j < indexIdtoSuffixArray.size(); j++) {

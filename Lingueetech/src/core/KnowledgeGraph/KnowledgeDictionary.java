@@ -68,4 +68,8 @@ public class KnowledgeDictionary extends HashMap<Integer, LexicalInfo> {
 			this.put(token, li);
 		}
 	}
+	
+	public void known(String token) {
+		known(index.toLemma(token));
+	}
 }
