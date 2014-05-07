@@ -3,8 +3,10 @@ package core.searchUtil;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.TreeSet;
 
+import core.KnowledgeGraph.DictionaryGraph;
 import core.KnowledgeGraph.KnowledgeDictionary;
 import core.eng.Index;
 
@@ -16,6 +18,7 @@ public class Search{
 	/* ATTRIBUTES */
 	private Index index;
 	private KnowledgeDictionary dico;
+	private DictionaryGraph graph;
 	private HashMap<Integer, Float> scoreDoc = null;
 
 	private final Comparator<Integer> relevComparator = new Comparator<Integer>() {
@@ -39,9 +42,10 @@ public class Search{
 
 
 	/* CONSTRUCTOR */
-	public Search(Index index, KnowledgeDictionary dico) {
+	public Search(Index index, KnowledgeDictionary dico, DictionaryGraph g) {
 		this.index=index;
 		this.dico = dico;
+		this.graph = g;
 	}
 
 	/* METHODS */
@@ -70,18 +74,28 @@ public class Search{
 	
 	public TreeSet<Integer> searchEdu(String keywords) {
 		ArrayList<Integer> tokens = index.tokenizeSentence(keywords);
-		TreeSet<Integer> sentences = new TreeSet<>(eduComparator);
+		TreeSet<Integer> docs = new TreeSet<>(eduComparator);
 
 		for(Integer t : tokens)
-			sentences.addAll(index.getDocs(t));
+			docs.addAll(index.getDocs(t));
 		
-		return sentences;
+		return docs;
+	}
+	
+	public TreeSet<Integer> searchImprove() {
+		TreeSet<Integer> docs = new TreeSet<>(eduComparator);
+		HashSet<Integer> lemmas = graph.getSimilar(graph.getRdmZone(5), 5);
+		
+		for(Integer l : lemmas)
+			docs.addAll(index.getDocs(l));
+				
+		return docs;
 	}
 
-	private Float getKnowledge(Integer doc){
-		float s=0;
-		ArrayList<Integer> lemmas=index.getSentenceIdToLemmaIds(doc);
-		for(Integer lm:lemmas){
+	private Float getKnowledge(Integer doc) {
+		float s = 0;
+		ArrayList<Integer> lemmas = index.getSentenceIdToLemmaIds(doc);
+		for(Integer lm : lemmas){
 			s += dico.get(lm).getKnowledge();
 		}
 		return s/lemmas.size();

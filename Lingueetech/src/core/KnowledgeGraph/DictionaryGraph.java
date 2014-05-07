@@ -19,7 +19,7 @@ public class DictionaryGraph extends HashMap<Integer, HashMap<Integer, Float>> {
 	private KnowledgeDictionary dictionary;
 	private Index index;
 	private HashMap<Integer, Float> scores;
-	private float thresholdSimilarity=0.6f;
+	private float thresholdSimilarity=0.6f, thresholdZone = 0.7f;
 	
 	public DictionaryGraph(Index index, KnowledgeDictionary dictionary, Word2Vec w2v, int nb, float pond){
 		this.index=index;
@@ -50,7 +50,27 @@ public class DictionaryGraph extends HashMap<Integer, HashMap<Integer, Float>> {
 		
 		return (float) w2v.distance(idToLemma.get(lm1), idToLemma.get(lm2));
 	}
-
+	
+	/* On renvoie les nb mots les plus proches des lemmes stockes dans la liste 'lemmas' */
+	public HashSet<Integer> getSimilar(HashSet<Integer> lemmas, int nb) {
+		HashSet<Integer> results = new HashSet<>();
+		ArrayList<String> slemmas = new ArrayList<>(), sim;
+		
+		for(int i : lemmas)
+			slemmas.add(index.getIndexIdToLemme().get(i));
+		
+		sim = /* fonction w2v */;
+		
+		for(String s : sim) {
+			if(results.size() < nb)
+				results.add(index.getLemmeToId(index.toLemma(s)));
+			else
+				break;
+		}
+		
+		return results;
+	}
+	
 	private final Comparator<Integer> relevComparator = new Comparator<Integer>() {
 		public int compare(Integer l1, Integer l2) {
 			int res = scores.get(l2).compareTo(scores.get(l1));
@@ -69,4 +89,22 @@ public class DictionaryGraph extends HashMap<Integer, HashMap<Integer, Float>> {
 		return relevants;
 	}
 	
+	/* Obtenir une HashSet contenant nb mots proches dans le graphe */
+	public HashSet<Integer> getRdmZone(int nb) {
+		int ind = (int) Math.random() * (this.size() + 1);
+		HashMap<Integer, Float> start = this.get(ind);
+		ArrayList<Integer> lemmas = new ArrayList<>();
+		
+		lemmas.add(ind);
+		while(lemmas.size() < nb) {
+			for(int i : start.keySet()) {
+				if(start.get(i) >= thresholdZone && !lemmas.contains(i)) {
+					lemmas.add(i);
+				}
+			}
+			start = this.get(lemmas.get(lemmas.size()-1));
+		}
+		
+		return new HashSet<Integer>(lemmas);
+	}
 }
